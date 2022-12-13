@@ -9,20 +9,21 @@ namespace YellowCarrot.Enums
     public enum Units
     {
    
-        MG,
-        G,
-        KG,
-        ML,
-        CL,
-        DL,
-        L,
-        Piece,
+        mg,
+        g,
+        kg,
+        ml,
+        cl,
+        dl,
+        l,
         Pounds,
         Ounces,
         Teaspoon,
         Tablespoon,
         Cup,
         Pint,
-        Gallons
+        Gallons,
+        Dash,
+        Pinch
     }
 }

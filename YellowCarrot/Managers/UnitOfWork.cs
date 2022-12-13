@@ -21,6 +21,7 @@ namespace YellowCarrot.Managers
             _context = context;
             Recipes = new RecipeRepository(_context);
             Tags = new TagRepository(_context);
+            Ingredients = new IngredientRepository(_context);
         }
 
 

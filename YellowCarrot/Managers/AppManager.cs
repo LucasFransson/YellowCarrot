@@ -115,7 +115,7 @@ namespace YellowCarrot.Managers
         }
         public static bool CheckUsernameRequirements(string username)
         {
-            if (username.Length > 4)
+            if (username.Length >= 4)
             {
                 return true;
             }
@@ -124,7 +124,7 @@ namespace YellowCarrot.Managers
 
         public static bool CheckPasswordRequirements(string password)
         {
-            if (password.Length > 4)
+            if (password.Length >= 4)
             {
                 return true;
             }
@@ -151,7 +151,12 @@ namespace YellowCarrot.Managers
         }
         public static void LoadUnitEnums(ComboBox cbo)
         {
-            cbo.ItemsSource = Enum.GetNames(typeof(Units));
+            cbo.Items.Add("");
+            foreach(var unit in Enum.GetNames(typeof(Units)))
+            {
+                cbo.Items.Add(unit);
+            }
+            //cbo.ItemsSource = Enum.GetNames(typeof(Units)); // Jag använder foreach nu istället för jag vill ha ett cbo alternativ utifrån Enums
         }
 
 
