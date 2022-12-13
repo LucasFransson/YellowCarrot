@@ -189,7 +189,7 @@ namespace YellowCarrot.Managers
             listView.Items.Clear();
             foreach (var ingredient in ingredients)
             {
-                AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Name}"), listView);
+                AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), listView);
             }
         }
     }
