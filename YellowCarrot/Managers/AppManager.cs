@@ -54,6 +54,12 @@ namespace YellowCarrot.Managers
             return list;
         }
 
+        public static Tag CreateTag(string name)
+        {
+            Tag tag = new();
+            tag.Name = name;
+            return tag;
+        }
         public static Ingredient CreateIngredient(string name,string unit, int quantity)
         {
             Ingredient ingredient = new();

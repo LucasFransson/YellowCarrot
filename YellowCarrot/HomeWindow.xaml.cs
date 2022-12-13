@@ -36,7 +36,6 @@ namespace YellowCarrot
                     unitOfWork.Complete();
                 }
             }
-
         }
 
         private void btnOpenRecipe_Click(object sender, RoutedEventArgs e)
@@ -46,8 +45,9 @@ namespace YellowCarrot
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
                 recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID);
+                lblCurrentRecipe.Content= recipe.Name;
+                lblRecipeByUser.Content = $"Recipe By: {unitOfWork.Recipes.GetUserNameByRecipeId(recipe.ID,new UserRepository(new UserDbContext ()))}";
                 AppManager.LoadIngredients(lvCurrentRecipe, recipe.Ingredients);
-                lblRecipes.Content = unitOfWork.Recipes.GetRecipeUserByRecipeID(recipe.ID, new UserRepository(new UserDbContext())).UserName;
                 unitOfWork.Complete();
             }
         }

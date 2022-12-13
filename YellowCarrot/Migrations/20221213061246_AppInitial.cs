@@ -5,7 +5,7 @@
 namespace YellowCarrot.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class AppInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,13 +14,13 @@ namespace YellowCarrot.Migrations
                 name: "Tags",
                 columns: table => new
                 {
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.ID);
+                    table.PrimaryKey("PK_Tags", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -31,17 +31,17 @@ namespace YellowCarrot.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TagID = table.Column<int>(type: "int", nullable: false)
+                    TagID = table.Column<int>(type: "int", nullable: true),
+                    TagName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipes", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Recipes_Tags_TagID",
-                        column: x => x.TagID,
+                        name: "FK_Recipes_Tags_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tags",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Name");
                 });
 
             migrationBuilder.CreateTable(
@@ -72,9 +72,9 @@ namespace YellowCarrot.Migrations
                 column: "RecipeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_TagID",
+                name: "IX_Recipes_TagName",
                 table: "Recipes",
-                column: "TagID");
+                column: "TagName");
         }
 
         /// <inheritdoc />

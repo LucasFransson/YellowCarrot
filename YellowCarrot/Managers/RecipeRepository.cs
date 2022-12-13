@@ -24,7 +24,7 @@ namespace YellowCarrot.Managers
         {
             return _context.Recipes.Include(r=>r.Ingredients).ToList();
         }
-
+        
 
         public User GetRecipeUserByRecipeID(int recipeID,UserRepository userRepo)
         {
@@ -37,5 +37,9 @@ namespace YellowCarrot.Managers
             return _context.Recipes.Include(r => r.Ingredients).First(r => r.ID == recipeID);
         }
 
+        public string GetUserNameByRecipeId(int recipeID, UserRepository userRepo)
+        {
+            return userRepo.FindById(recipeID).UserName;
+        }
     }
 }

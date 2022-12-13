@@ -14,5 +14,6 @@ namespace YellowCarrot.Interfaces
         List<Recipe> GetAllRecipesWithIngredients();
         Recipe GetRecipeWithIngredients(int recipeID);
         User GetRecipeUserByRecipeID(int recipeID,UserRepository userRepo);
+        string GetUserNameByRecipeId(int recipeID,UserRepository userRepo);
     }
 }

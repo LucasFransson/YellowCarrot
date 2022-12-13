@@ -36,12 +36,21 @@ namespace YellowCarrot
 
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-
+                if (tbxTag.Text.Count() != 0) 
+                {
+                    Tag tag = AppManager.CreateTag(tbxTag.Text);
+                    recipe.TagName= tag.Name;
+                    unitOfWork.Tags.Add(tag);
+                }
+                
                 unitOfWork.Recipes.Add(recipe);
                 unitOfWork.Complete();
                 
             }
             MessageBox.Show($"You have added a {recipe.Name} Recipe!");
+            HomeWindow homeWin = new();
+            homeWin.Show();
+            this.Close();
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
@@ -53,7 +62,7 @@ namespace YellowCarrot
 
         private void btnAddIngredient_Click(object sender, RoutedEventArgs e)
         {
-            Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), int.Parse(tbxIngredientQuantity.Text));
+            Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), int.Parse(tbxIngredientQuantity.Text)); // fånga null om inget är valt till att bli "";
 
             AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient,$"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
 
@@ -61,7 +70,11 @@ namespace YellowCarrot
 
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
+            Tag tag = AppManager.CreateTag(tbxTag.Text);
+            using(var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
 
+            }
         }
     }
 }

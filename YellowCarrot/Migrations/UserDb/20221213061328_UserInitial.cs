@@ -5,7 +5,7 @@
 namespace YellowCarrot.Migrations.UserDb
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class UserInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
