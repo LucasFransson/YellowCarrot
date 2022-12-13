@@ -36,8 +36,6 @@ namespace YellowCarrot
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-
-
             using (var userRepo = new UserRepository(new UserDbContext()))
             {
                 if (AppManager.CheckLogIn(tbxUserName.Text, pbxPassword.Password, userRepo))

@@ -54,18 +54,6 @@ namespace YellowCarrot.Managers
             return list;
         }
 
-
-        //public static List<Type>  GetListFromLv(ListView listView,Object obj) 
-        //{
-        //    List<Type> list = new();
-        //    foreach (var item in listView.Items)
-        //    {
-        //        ListViewItem selectedItem = item as ListViewItem;
-        //        Type type = obj.GetType();
-        //        list.Add((type)selectedItem.Tag);
-        //    }
-        //    return list; 
-        //}
         public static Ingredient CreateIngredient(string name,string unit, int quantity)
         {
             Ingredient ingredient = new();
@@ -84,6 +72,7 @@ namespace YellowCarrot.Managers
             recipe.Name = recipeName;
             recipe.UserID = AppManager.LoggedInUser.ID;
             return recipe;
+
         }
 
         //public static Recipe CreateRecipe(string recipeName,params Ingredient[] ingredients)

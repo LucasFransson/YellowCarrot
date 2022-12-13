@@ -33,12 +33,6 @@ namespace YellowCarrot
                 using (var unitOfWork = new UnitOfWork(context))
                 {
                     AppManager.LoadAllRecipes(lvRecipes, unitOfWork);
-                    //List<Recipe> recipes = context.Recipes.Include(r => r.Ingredients).ToList();
-                    ////List<Recipe> recipes = unitOfWork.Recipes.GetAll().ToList();
-                    //foreach (Recipe recipe in recipes)
-                    //{
-                    //    recipe.Ingredients.ForEach(i => lvCurrentRecipe.Items.Add(i.Name));
-                    //}
                     unitOfWork.Complete();
                 }
             }
@@ -46,39 +40,16 @@ namespace YellowCarrot
         }
 
         private void btnOpenRecipe_Click(object sender, RoutedEventArgs e)
-        {
-           
+        { 
             Recipe recipe = AppManager.GetRecipeFromListView(lvRecipes);
-            //using(var unitOfWork = new UnitOfWork(new AppDbContext()))
-            //{
-            //    List<Ingredient> ingredients = AppManager.GetIngredientsFromRecipe(recipe,unitOfWork);
-            //    AppManager.LoadIngredients(lvCurrentRecipe, ingredients);
-            //    unitOfWork.Complete();
-            //}
 
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
                 recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID);
                 AppManager.LoadIngredients(lvCurrentRecipe, recipe.Ingredients);
+                lblRecipes.Content = unitOfWork.Recipes.GetRecipeUserByRecipeID(recipe.ID, new UserRepository(new UserDbContext())).UserName;
                 unitOfWork.Complete();
             }
-
-            //typ Working?
-            //using (AppDbContext context = new())
-            //{
-            //    using (var unitOfWork = new UnitOfWork(context))
-            //    {
-            //        AppManager.LoadAllRecipes(lvRecipes, unitOfWork);
-            //        List<Recipe> recipes = context.Recipes.Where(r=>r.ID==recipe.ID).Include(r => r.Ingredients).ToList();
-            //        //Recipe rec = (Recipe)context.Recipes.Where(r => r.ID == recipe.ID).Include(r => r.Ingredients);
-            //        //List<Recipe> recipes = unitOfWork.Recipes.GetAll().ToList();
-            //        foreach (var i in recipes)
-            //        {
-            //            recipe.Ingredients.ForEach(i => lvCurrentRecipe.Items.Add(i.Name));
-            //        }
-            //        unitOfWork.Complete();
-            //    }
-            //}
         }
 
         private void btnAddRecipe_Click(object sender, RoutedEventArgs e)

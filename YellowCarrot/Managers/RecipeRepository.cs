@@ -25,15 +25,17 @@ namespace YellowCarrot.Managers
             return _context.Recipes.Include(r=>r.Ingredients).ToList();
         }
 
+
+        public User GetRecipeUserByRecipeID(int recipeID,UserRepository userRepo)
+        {
+            return userRepo.FindById(recipeID);
+            //_context.Recipes.FirstOrDefault(r=>r.ID==recipeID)
+        }
+
         public Recipe GetRecipeWithIngredients(int recipeID)
         {
             return _context.Recipes.Include(r => r.Ingredients).First(r => r.ID == recipeID);
         }
 
-        //public List<Recipe> FindRecipesByTag(Tag tag)
-        //{
-        //    _context.Recipes.Include(_context.Tag)
-        //    return;
-        //}
     }
 }
