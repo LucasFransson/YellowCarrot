@@ -7,7 +7,7 @@ using YellowCarrot.Data;
 
 #nullable disable
 
-namespace YellowCarrot.Migrations
+namespace YellowCarrot.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot

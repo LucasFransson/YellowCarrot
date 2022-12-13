@@ -7,7 +7,7 @@ using YellowCarrot.Data;
 
 #nullable disable
 
-namespace YellowCarrot.Migrations.AppDb
+namespace YellowCarrot.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -20,21 +20,6 @@ namespace YellowCarrot.Migrations.AppDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("RecipeTag", b =>
-                {
-                    b.Property<int>("RecipesID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("RecipesID", "TagsID");
-
-                    b.HasIndex("TagsID");
-
-                    b.ToTable("RecipeTag");
-                });
 
             modelBuilder.Entity("YellowCarrot.Models.Ingredient", b =>
                 {
@@ -77,13 +62,17 @@ namespace YellowCarrot.Migrations.AppDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TagID")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("TagID");
 
                     b.ToTable("Recipes");
                 });
@@ -106,21 +95,6 @@ namespace YellowCarrot.Migrations.AppDb
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("RecipeTag", b =>
-                {
-                    b.HasOne("YellowCarrot.Models.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipesID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YellowCarrot.Models.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("YellowCarrot.Models.Ingredient", b =>
                 {
                     b.HasOne("YellowCarrot.Models.Recipe", null)
@@ -132,7 +106,21 @@ namespace YellowCarrot.Migrations.AppDb
 
             modelBuilder.Entity("YellowCarrot.Models.Recipe", b =>
                 {
+                    b.HasOne("YellowCarrot.Models.Tag", null)
+                        .WithMany("Recipes")
+                        .HasForeignKey("TagID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YellowCarrot.Models.Recipe", b =>
+                {
                     b.Navigation("Ingredients");
+                });
+
+            modelBuilder.Entity("YellowCarrot.Models.Tag", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

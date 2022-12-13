@@ -8,11 +8,11 @@ using YellowCarrot.Data;
 
 #nullable disable
 
-namespace YellowCarrot.Migrations
+namespace YellowCarrot.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20221212104838_Initial")]
-    partial class Initial
+    [Migration("20221213045653_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

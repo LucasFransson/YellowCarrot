@@ -14,7 +14,7 @@ namespace YellowCarrot.Managers
         private readonly AppDbContext _context;
 
         public IRecipeRepository Recipes { get; set; }
-
+        public IIngredientRepository Ingredients { get; set; }
         public ITagRepository Tags { get; set; }
         public UnitOfWork(AppDbContext context)
         {

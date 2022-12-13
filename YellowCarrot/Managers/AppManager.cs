@@ -15,7 +15,7 @@ namespace YellowCarrot.Managers
     public static class AppManager
     {
         public static User? LoggedInUser { get; set; }
-       // public static int? UserID { get; set; } = LoggedInUser.ID;
+
 
         public static void AddLvItemToLv(ListViewItem lvItem,ListView listView)
         {
@@ -154,10 +154,6 @@ namespace YellowCarrot.Managers
             cbo.ItemsSource = Enum.GetNames(typeof(Units));
         }
 
-        public static Object GetItemFromListView()
-        {
-            return new Object();
-        }
 
         public static Recipe GetRecipeFromListView(ListView listView)
         {
