@@ -14,12 +14,11 @@ namespace YellowCarrot.Data
 {
     public class AppDbContext : DbContext
     {
-        private readonly IEncryptionProvider? _provider;
+        private readonly IEncryptionProvider? _provider;  // ta bort
         public AppDbContext()
         {
-            _provider = new GenerateEncryptionProvider("1234567asdasdw890112345678921234");
+            _provider = new GenerateEncryptionProvider("1234567asdasdw890112345678921234"); // ta bort
         }
-
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet <Recipe> Recipes { get; set; }
@@ -27,7 +26,6 @@ namespace YellowCarrot.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotAppDB;Trusted_Connection=True");

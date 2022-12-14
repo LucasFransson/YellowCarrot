@@ -54,7 +54,6 @@ namespace YellowCarrot.Managers
             }
             return list;
         }
-
         public static Tag CreateTag(string name)
         {
             Tag tag = new();
@@ -79,7 +78,6 @@ namespace YellowCarrot.Managers
             recipe.Name = recipeName;
             recipe.UserID = AppManager.LoggedInUser.ID;
             return recipe;
-
         }
 
         //public static Recipe CreateRecipe(string recipeName,params Ingredient[] ingredients)
@@ -106,8 +104,7 @@ namespace YellowCarrot.Managers
         {
             User? user = userRepo.FindByUserName(username);
             LoggedInUser = user;
-            userRepo.Complete();
-            
+            userRepo.Complete();    
         }
         public static bool CheckRegisterRequirements(string username, string password,UserRepository userRepo)
         {
@@ -128,7 +125,6 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
-
         public static bool CheckPasswordRequirements(string password)
         {
             if (password.Length >= 4)
@@ -146,7 +142,6 @@ namespace YellowCarrot.Managers
                 }
             return false;
         }
-
         public static bool CheckLogIn(string username, string password,UserRepository userRepo)
         {
             if (userRepo.FindByUserName(username).Password == password)
@@ -156,19 +151,17 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
-
         public static bool IsRecipeOwnedByUser(ListView listView)
         {
 
             // Går att optimera med en GetUserFromListView
             Recipe recipe = AppManager.GetRecipeFromListView(listView);
-            if(recipe.UserID==AppManager.LoggedInUser.ID)
+            if(recipe.UserID==AppManager.LoggedInUser.ID) // krasch??
             {
                 return true;
             }
             return false;
         }
-
         // De här lilla QoL metoden kontrollerar endast ändstavelsen av username för ett "s" och justerar strängen vid behov
         // Metoden returnerar en bool som är true om namnet slutar på s, 
         public static bool CheckIfUsernameEndsWithS(string username)
@@ -179,7 +172,6 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
-
         public static Recipe GetRecipeFromListView(ListView listView)
         {
             if (listView.SelectedItem != null)

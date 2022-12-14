@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using YellowCarrot.Data;
+using YellowCarrot.Interfaces;
 using YellowCarrot.Managers;
 using YellowCarrot.Models;
 
@@ -25,8 +26,12 @@ namespace YellowCarrot
         public AddRecipeWindow()
         {
             InitializeComponent();
-            AppManager.LoadUnitEnums(cboUnit);
-
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
+                AppManager.LoadUnitEnums(cboUnit);
+                List<Tag> tags = unitOfWork.Tags.GetAllTags();
+                AppManager.LoadObjectsToComboBox(cboTags, tags);
+            }
         }
 
         private void btnSaveRecipe_Click(object sender, RoutedEventArgs e)

@@ -26,14 +26,14 @@ namespace YellowCarrot
         public RecipeDetailsWindow(Recipe recipe)
         {
             InitializeComponent();
+
             this.recipe= recipe;
             lblEditHeadliner.Content = $"Editing {recipe.Name} Recipe";
             tbxRecipeName.Text=recipe.Name;
 
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID);
-                tbxRecipeName.Text = recipe.Name;
+                recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID); // Jag kunde inte nå Ingredients och Tags via Receptet som jag skickade med, så därför får jag köra en Get.Include metod här.  Det kan gå att lösa via metoder i korrekt _Context (IngredientRepository), checka detta 
               
                 AppManager.LoadIngredients(lvRecipe, recipe.Ingredients);
                 List<Tag> tags = unitOfWork.Tags.GetAllTags();
@@ -44,37 +44,68 @@ namespace YellowCarrot
 
         private void btnSaveRecipe_Click(object sender, RoutedEventArgs e)
         {
-
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
+                unitOfWork.Complete();
+            }
         }
 
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
 
+            }
         }
 
         private void btnAddIngredient_Click(object sender, RoutedEventArgs e)
         {
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
 
+            }
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
         {
-
+            HomeWindow homeWin = new();
+            homeWin.Show();
+            this.Close();
         }
 
         private void btnRemoveTag_Click(object sender, RoutedEventArgs e)
         {
-
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
+                recipe.TagID = null;
+                recipe.TagName= null;
+            }
         }
-
         private void btnRemoveIngredient_Click(object sender, RoutedEventArgs e)
         {
+            using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+            {
+                unitOfWork.Ingredients.RemoveWhere(i=>i.ID==recipe.ID);
 
+                // Lagt in detta såhär för att testa. Gör en Update UI metod
+                recipe = unitOfWork.Recipes.GetRecipeIncluded(recipe.ID); 
+                AppManager.LoadIngredients(lvRecipe, recipe.Ingredients);
+                unitOfWork.Complete();
+            }
         }
 
         private void btnRemoveRecipe_Click(object sender, RoutedEventArgs e)
         {
+            if(MessageBox.Show($"Are you sure you want to remove the recipe : {recipe.Name} ?" , "Remove Recipe" , MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+                {
 
+                    unitOfWork.Recipes.Remove(recipe);
+                    //unitOfWork.Recipes.RemoveWhere(r=>r.ID==recipe.ID);
+                    unitOfWork.Complete();
+                }
+            }
         }
     }
 }

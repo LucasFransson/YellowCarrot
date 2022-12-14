@@ -41,17 +41,21 @@ namespace YellowCarrot
         }
 
         private void btnOpenRecipe_Click(object sender, RoutedEventArgs e)
-        { 
-            Recipe recipe = AppManager.GetRecipeFromListView(lvRecipes);
-
-            using(var unitOfWork = new UnitOfWork(new AppDbContext()))
+        {
+            if (lvRecipes.SelectedItem != null)
             {
-                recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID);
-                lblCurrentRecipe.Content= recipe.Name;
-                lblRecipeByUser.Content = $"Recipe By: {unitOfWork.Recipes.GetUserNameByRecipeId(recipe.ID,new UserRepository(new UserDbContext ()))}";
-                AppManager.LoadIngredients(lvCurrentRecipe, recipe.Ingredients);
-                unitOfWork.Complete();
+                Recipe recipe = AppManager.GetRecipeFromListView(lvRecipes);
+
+                using (var unitOfWork = new UnitOfWork(new AppDbContext()))
+                {
+                    recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID);
+                    lblCurrentRecipe.Content = recipe.Name;
+                    lblRecipeByUser.Content = $"Recipe By: {unitOfWork.Recipes.GetUserNameByRecipeId(recipe.ID, new UserRepository(new UserDbContext()))}";
+                    AppManager.LoadIngredients(lvCurrentRecipe, recipe.Ingredients);
+                    unitOfWork.Complete();
+                }
             }
+            else { MessageBox.Show("You must select a recipe from the list to open!"); }
         }
 
         private void btnAddRecipe_Click(object sender, RoutedEventArgs e)
@@ -93,9 +97,8 @@ namespace YellowCarrot
                 AppManager.LoadRecipeListToListView(unitOfWork.Recipes.GetRecipesByUserID(AppManager.LoggedInUser.ID),lvRecipes);
                 unitOfWork.Complete();
             }
-
-            if (AppManager.CheckIfUsernameEndsWithS(AppManager.LoggedInUser.UserName)) { lblRecipes.Content = $"{AppManager.LoggedInUser.UserName} Recipe"; }
-            else { lblRecipes.Content = $"{AppManager.LoggedInUser.UserName}s Recipe"; }
+            if (AppManager.CheckIfUsernameEndsWithS(AppManager.LoggedInUser.UserName)) { lblRecipes.Content = $"{AppManager.LoggedInUser.UserName} Recipes"; }
+            else { lblRecipes.Content = $"{AppManager.LoggedInUser.UserName}s Recipes"; }
         }
 
         private void btnShowAllRecipes_Click(object sender, RoutedEventArgs e)
@@ -105,6 +108,7 @@ namespace YellowCarrot
                 AppManager.LoadAllRecipes(lvRecipes, unitOfWork);
                 unitOfWork.Complete();
             }
+            lblRecipes.Content = $"All Recipes";
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
@@ -113,7 +117,6 @@ namespace YellowCarrot
             {
                 using (var userRepo = new UserRepository(new UserDbContext()))
                 {
-
                     switch (true)
                     {
                         case true when rbtnSearchRecipe.IsChecked == true:
@@ -132,6 +135,10 @@ namespace YellowCarrot
                             {
                                 List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByUserName(tbxSearchInput.Text,userRepo);
                                 AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+
+                                if (AppManager.CheckIfUsernameEndsWithS(tbxSearchInput.Text)) { lblRecipes.Content = $"{tbxSearchInput.Text} Recipes"; }
+                                else { lblRecipes.Content = $"{tbxSearchInput.Text}s Recipes"; }
+
                                 break;
                             }
                         case true when rbtnSearchIngredient.IsChecked == true:
@@ -143,9 +150,7 @@ namespace YellowCarrot
                         default: break;
                     }
                 }
-
             }
-            // switch case over rbtn
         }
 
 

@@ -152,6 +152,7 @@
                 Height="50"
                 Width="100"
                 VerticalAlignment="Top"
+                Visibility="Hidden"
                 Click="btnAddTag_Click"
                 />
     </Grid>

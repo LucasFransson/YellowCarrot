@@ -11,7 +11,7 @@ using YellowCarrot.Models;
 
 namespace YellowCarrot.Managers
 {
-    public class UserRepository : IDisposable
+    public class UserRepository : IDisposable // Checka !!! : IUserRepository
     {
         private readonly UserDbContext _Context;
 
@@ -51,7 +51,6 @@ namespace YellowCarrot.Managers
         {
             _Context.Set<User>().RemoveRange(users);
         }
-
 
 
         public int Complete()
