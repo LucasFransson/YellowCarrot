@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ObjectiveC;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -148,12 +149,41 @@ namespace YellowCarrot.Managers
 
         public static bool CheckLogIn(string username, string password,UserRepository userRepo)
         {
-                if (userRepo.FindByUserName(username).Password == password)
-                {
-                    userRepo.Complete();
-                    return true;
-                }
+            if (userRepo.FindByUserName(username).Password == password)
+            {
+                userRepo.Complete();
+                return true;
+            }
             return false;
+        }
+
+        public static bool IsRecipeOwnedByUser(ListView listView)
+        {
+
+            // Går att optimera med en GetUserFromListView
+            Recipe recipe = AppManager.GetRecipeFromListView(listView);
+            if(recipe.UserID==AppManager.LoggedInUser.ID)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // De här lilla QoL metoden kontrollerar endast ändstavelsen av username för ett "s" och justerar strängen vid behov
+        // Metoden returnerar en bool som är true om namnet slutar på s, 
+        public static bool CheckIfUsernameEndsWithS(string username)
+        {
+            if (username.EndsWith('s'))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public static string LoadRecipeListSourceName(Object obj)
+        {
+            return $"{obj.ToString()}s Recipe";
         }
         public static void LoadUnitEnums(ComboBox cbo)
         {
@@ -177,8 +207,26 @@ namespace YellowCarrot.Managers
             return null;
         }
 
+        
+        public static void LoadRecipesFromTag()
+        {
+
+        }
+        public static void LoadRecipesFromUser()
+        {
+
+        }
+        public static void LoadRecipeListToListView(List<Recipe> recipes, ListView listView)
+        {
+            listView.Items.Clear();
+            foreach(var recipe in recipes)
+            {
+                AppManager.AddLvItemToLv(AppManager.CreateListViewItem(recipe, $"{recipe.Name}"), listView);
+            }
+        }
         public static void LoadAllRecipes(ListView listView,UnitOfWork unitOfWork)
         {
+            listView.Items.Clear();
             foreach (var recipe in unitOfWork.Recipes.GetAll())
             {
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(recipe, $"{recipe.Name}"), listView);
@@ -190,6 +238,14 @@ namespace YellowCarrot.Managers
             foreach (var ingredient in ingredients)
             {
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), listView);
+            }
+        }
+        public static void LoadTags(ComboBox cbo,UnitOfWork unitOfWork)
+        {
+            List<Tag> tags = unitOfWork.Tags.GetAll().ToList();
+            foreach(var t in tags)
+            {
+                cbo.Items.Add(t.Name);
             }
         }
     }

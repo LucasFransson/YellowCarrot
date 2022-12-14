@@ -13,7 +13,15 @@ namespace YellowCarrot.Interfaces
     {
         List<Recipe> GetAllRecipesWithIngredients();
         Recipe GetRecipeWithIngredients(int recipeID);
-        User GetRecipeUserByRecipeID(int recipeID,UserRepository userRepo);
+        Recipe GetRecipeIncluded(int recipeID);
+        User GetUserByRecipeID(int recipeID,UserRepository userRepo);
         string GetUserNameByRecipeId(int recipeID,UserRepository userRepo);
+
+        List<Recipe> GetRecipesByUserName(string userName, UserRepository userRepo);
+        List<Recipe> GetRecipesByIngredient(string ingredientName);
+        List<Recipe> GetRecipesByTag(string tag);
+        List<Recipe> GetRecipesByRecipeName(string recipeName);
+        List<Recipe> GetRecipesByUserID(int userID);
+
     }
 }
