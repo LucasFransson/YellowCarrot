@@ -9,6 +9,7 @@ namespace YellowCarrot.Enums
     public enum Units
     {
    
+        st,
         mg,
         g,
         kg,

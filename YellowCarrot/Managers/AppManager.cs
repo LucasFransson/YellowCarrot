@@ -180,22 +180,6 @@ namespace YellowCarrot.Managers
             return false;
         }
 
-
-        public static string LoadRecipeListSourceName(Object obj)
-        {
-            return $"{obj.ToString()}s Recipe";
-        }
-        public static void LoadUnitEnums(ComboBox cbo)
-        {
-            cbo.Items.Add("");
-            foreach(var unit in Enum.GetNames(typeof(Units)))
-            {
-                cbo.Items.Add(unit);
-            }
-            //cbo.ItemsSource = Enum.GetNames(typeof(Units)); // Jag använder foreach nu istället för jag vill ha ett cbo alternativ utifrån Enums
-        }
-
-
         public static Recipe GetRecipeFromListView(ListView listView)
         {
             if (listView.SelectedItem != null)
@@ -207,7 +191,31 @@ namespace YellowCarrot.Managers
             return null;
         }
 
-        
+        public static string LoadRecipeListSourceName(Object obj)
+        {
+            return $"{obj.ToString()}s Recipe";
+        }
+
+        public static void LoadUnitEnums(ComboBox cbo)
+        {
+            cbo.Items.Add("");
+            foreach(var unit in Enum.GetNames(typeof(Units)))
+            {
+                cbo.Items.Add(unit);
+            }
+            //cbo.ItemsSource = Enum.GetNames(typeof(Units)); // Jag använder foreach nu istället för jag vill ha ett cbo alternativ utifrån Enums
+        }
+
+
+        // Metoden avser främst att ladda upp tidigare skapade Tags till en combobox, men jag valde att göra listan generell
+        public static void LoadObjectsToComboBox<T>(ComboBox cbo, List<T> list)
+        {
+            foreach (var item in list)
+            {
+                cbo.Items.Add(item.ToString());
+            }
+        }
+
         public static void LoadRecipesFromTag()
         {
 
@@ -240,7 +248,7 @@ namespace YellowCarrot.Managers
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), listView);
             }
         }
-        public static void LoadTags(ComboBox cbo,UnitOfWork unitOfWork)
+        public static void LoadTags (ComboBox cbo,UnitOfWork unitOfWork)
         {
             List<Tag> tags = unitOfWork.Tags.GetAll().ToList();
             foreach(var t in tags)

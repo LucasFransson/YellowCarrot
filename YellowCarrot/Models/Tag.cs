@@ -18,5 +18,10 @@ namespace YellowCarrot.Models
         public string Name { get; set; } = null!;
         public List<Recipe> Recipes { get; set; } = new();
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

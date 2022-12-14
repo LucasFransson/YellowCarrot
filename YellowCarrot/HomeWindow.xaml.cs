@@ -140,6 +140,7 @@ namespace YellowCarrot
                                 AppManager.LoadRecipeListToListView(recipes, lvRecipes);
                                 break;
                             }
+                        default: break;
                     }
                 }
 

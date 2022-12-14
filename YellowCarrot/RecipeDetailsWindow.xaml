@@ -126,6 +126,52 @@
                  VerticalContentAlignment="Center"
                  HorizontalContentAlignment="Center"
                  />
+        <Button x:Name="btnRemoveRecipe"
+                Content="Remove Recipe"
+                Grid.Row="2"
+                Grid.Column="3"
+                Foreground="#FFF34F4F" 
+                FontWeight="Bold"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="{x:Null}"
+                Margin="0,0,0,15" 
+                Click="btnRemoveRecipe_Click"
+            />
+        <Button x:Name="btnRemoveIngredient"
+                Content="X"
+                Grid.Row="5"
+                Grid.Column="3"
+                Height="50"
+                Width="50"
+                Foreground="#FFF34F4F" 
+                FontWeight="Bold"
+                FontSize="33"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{x:Null}"
+                Click="btnRemoveIngredient_Click"
+            
+            />
+        <Button x:Name="btnRemoveTag"
+                Content="Remove Tag"
+                Grid.Row="3"
+                Grid.Column="4"
+                Height="50"
+                Width="100"
+                Foreground="#FFF34F4F" 
+                FontWeight="Bold"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Background="{x:Null}"
+                Margin="10,0,0,0"
+                Click="btnRemoveTag_Click"
+            
+            />
         <Button x:Name="btnSaveRecipe"
                 Content="Save Recipe"
                 Grid.Row="5"
@@ -133,6 +179,7 @@
                 Grid.ColumnSpan="2"
                 Height="60"
                 Width="120"
+                Click="btnSaveRecipe_Click"
 
                 />
         <Button x:Name="btnReturn"
@@ -141,6 +188,7 @@
                 Grid.Column="1"
                 FontSize="40"
                 Background="{x:Null}"
+                Click="btnReturn_Click"
                 />
         <Button x:Name="btnAddIngredient"
                 Content="Add"
@@ -149,6 +197,7 @@
                 Height="50"
                 Width="100"
                 VerticalAlignment="Top"
+                Click="btnAddIngredient_Click"
 
                 />
         <Button x:Name="btnAddTag"
@@ -158,6 +207,7 @@
                 Height="50"
                 Width="100"
                 VerticalAlignment="Top"
+                Click="btnAddTag_Click"
 
                 />
     </Grid>
