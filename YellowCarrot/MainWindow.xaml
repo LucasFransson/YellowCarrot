@@ -84,7 +84,14 @@
                 VerticalAlignment="Bottom"
                 Click="btnLogin_Click"
                 
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnSignUp"
                 Content="Sign Up"
                 Grid.Column="2"
@@ -96,7 +103,14 @@
                 VerticalAlignment="Bottom"
                 Click="btnSignUp_Click"
              
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
 
     </Grid>

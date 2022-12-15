@@ -139,7 +139,14 @@
                 VerticalAlignment="Bottom"
                 Margin="0,0,0,20"
                 Click="btnSearch_Click"
-            />
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnOpenRecipe"
                 Content="Open Recipe"
                 Grid.Row="5"
@@ -150,7 +157,14 @@
                 HorizontalAlignment="Right"
                 Margin="0,10,30,0"
                 Click="btnOpenRecipe_Click"
-            />
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnLogOut"
                 Content="Log Out"
                 Grid.Row="5"
@@ -159,7 +173,14 @@
                 Width="150"
                 HorizontalAlignment="Center"
                 Click="btnLogOut_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnAddRecipe" 
                 Content="Add Recipe"
                 Grid.Row="2"
@@ -170,7 +191,14 @@
                 HorizontalAlignment="Center"
                 Margin="0,0,0,0"
                 Click="btnAddRecipe_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnEditRecipe" 
                 Content="Edit Recipe"
                 Grid.Row="5"
@@ -192,7 +220,14 @@
                 Width="100"
                 Margin="0,0,0,80"
                 Click="btnMyRecipes_Click" 
-            />
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnShowAllRecipes"
                 Content="All Recipes"
                 Grid.Row="3"
@@ -202,6 +237,13 @@
                 VerticalAlignment="Top"
                 Margin="0,40,0,0"
                 Click="btnShowAllRecipes_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

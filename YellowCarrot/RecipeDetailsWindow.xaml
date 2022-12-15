@@ -95,7 +95,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 FontSize="44" 
-                Background="{x:Null}"
+                Background="{x:Null}" FontWeight="Bold"
                />
         <TextBox x:Name="tbxIngredientQuantity"
                  Grid.Row="3"
@@ -142,14 +142,14 @@
                 Click="btnRemoveRecipe_Click"
             />
         <Button x:Name="btnRemoveIngredient"
-                Content="X"
+                Content="Remove Ingredient"
                 Grid.Row="5"
                 Grid.Column="3"
                 Height="50"
-                Width="50"
+                Width="120"
                 Foreground="#FFF34F4F" 
                 FontWeight="Bold"
-                FontSize="33"
+
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 HorizontalAlignment="Right"
@@ -181,7 +181,14 @@
                 Width="120"
                 Click="btnSaveRecipe_Click"
 
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnReturn"
                 Content="🔙"
                 Grid.Row="1"
@@ -189,7 +196,14 @@
                 FontSize="40"
                 Background="{x:Null}"
                 Click="btnReturn_Click"
-                />
+                >
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Foreground>
+        </Button>
         <Button x:Name="btnAddIngredient"
                 Content="Add"
                 Grid.Row="4"
@@ -199,7 +213,14 @@
                 VerticalAlignment="Top"
                 Click="btnAddIngredient_Click"
 
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnAddTag"
                 Content="Add"
                 Grid.Row="4"

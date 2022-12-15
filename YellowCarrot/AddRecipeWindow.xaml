@@ -89,14 +89,8 @@
                 HorizontalAlignment="Center"
                 FontSize="44" 
                 Background="{x:Null}" FontWeight="Bold"
-               >
-            <TextBox.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#63BCC9" Offset="1"/>
-                    <GradientStop Color="#758EB7" Offset="0.583"/>
-                </LinearGradientBrush>
-            </TextBox.Foreground>
-        </TextBox>
+               />
+
         <TextBox x:Name="tbxIngredientQuantity"
                  Grid.Row="3"
                  Grid.Column="1"
