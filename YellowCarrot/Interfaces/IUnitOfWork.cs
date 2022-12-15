@@ -9,6 +9,8 @@ namespace YellowCarrot.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+
+        IIngredientRepository Ingredients { get; }
         IRecipeRepository Recipes { get; }
         ITagRepository Tags { get; }
         int Complete();

@@ -62,7 +62,8 @@ namespace YellowCarrot
         {
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-
+                Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), int.Parse(tbxIngredientQuantity.Text)); // fånga null om inget är valt till att bli "";
+                AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
             }
         }
 
@@ -85,10 +86,14 @@ namespace YellowCarrot
         {
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                unitOfWork.Ingredients.RemoveWhere(i=>i.ID==recipe.ID);
+                //unitOfWork.Ingredients.Remove(AppManager)
+                //unitOfWork.Ingredients.RemoveWhere(i=>i.ID==recipe.ID);
+                Ingredient ingredient = AppManager.GetIngredientFromListView(lvRecipe);
+                unitOfWork.Ingredients.Remove(ingredient);
+                unitOfWork.Complete(); // För att uppdatera så ui kan refresha
 
                 // Lagt in detta såhär för att testa. Gör en Update UI metod
-                recipe = unitOfWork.Recipes.GetRecipeIncluded(recipe.ID); 
+                recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID); 
                 AppManager.LoadIngredients(lvRecipe, recipe.Ingredients);
                 unitOfWork.Complete();
             }
@@ -100,10 +105,13 @@ namespace YellowCarrot
             {
                 using (var unitOfWork = new UnitOfWork(new AppDbContext()))
                 {
-
                     unitOfWork.Recipes.Remove(recipe);
                     //unitOfWork.Recipes.RemoveWhere(r=>r.ID==recipe.ID);
                     unitOfWork.Complete();
+                    MessageBox.Show($"You have removed the recipe : {recipe.Name}!", "Recipe Removed");
+                    HomeWindow homeWin = new();
+                    homeWin.Show();
+                    this.Close();
                 }
             }
         }

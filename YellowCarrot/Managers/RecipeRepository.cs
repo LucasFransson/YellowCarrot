@@ -20,35 +20,31 @@ namespace YellowCarrot.Managers
         {
             this._context = context;
         }
-
         public List<Recipe> GetAllRecipesWithIngredients()
         {
             return _context.Recipes.Include(r=>r.Ingredients).ToList();
         }
-        
-
         public User GetUserByRecipeID(int recipeID,UserRepository userRepo)
         {
             return userRepo.FindById(recipeID);
             //_context.Recipes.FirstOrDefault(r=>r.ID==recipeID)
         }
-        public User GetUserByUserNameD(string userName, UserRepository userRepo)
+        public User GetUserByUserName(string userName, UserRepository userRepo)
         {
             return userRepo.FindByUserName(userName);
         }
         public List<Recipe> GetRecipesByUserName(string userName, UserRepository userRepo)
         {
-            User user = GetUserByUserNameD(userName, userRepo);
+            User user = GetUserByUserName(userName, userRepo);
             return _context.Recipes.Where(r => r.UserID == user.ID).ToList();
         }
         public Recipe GetRecipeWithIngredients(int recipeID)
         {
             return _context.Recipes.Include(r => r.Ingredients).First(r => r.ID == recipeID);
         }
-
-        public Recipe GetRecipeIncluded(int recipeID)
+        public Recipe GetRecipeIncluded(int recipeID) // error pga tag id != key
         {
-            return _context.Recipes.Include(r => r.Ingredients).Include(r=>r.TagID).First(r => r.ID == recipeID);
+            return _context.Recipes.Include(r => r.Ingredients).Include(r=>r.TagID).First(r => r.ID == recipeID); 
         }
         public List<Recipe> GetRecipesByRecipeName(string recipeName)
         {

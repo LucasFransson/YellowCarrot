@@ -18,10 +18,12 @@ namespace YellowCarrot.Managers
         public static User? LoggedInUser { get; set; }
 
 
+        // Adds a listviewitem to a listview
         public static void AddLvItemToLv(ListViewItem lvItem,ListView listView)
         {
             listView.Items.Add(lvItem);
         }
+        // Takes a object and a string and creates a listviewitem from it with the object as .Tag and the string content as .Content
         public static ListViewItem CreateListViewItem(Object obj,string objContent)
         {
             ListViewItem lvItem = new();
@@ -29,21 +31,26 @@ namespace YellowCarrot.Managers
             lvItem.Content = objContent;
             return lvItem;
         }
-        public static List<Ingredient> GetIngredientsFromLv(ListView listView)
-        {
-            List<Ingredient> ingredients = new();
-            foreach(var item in listView.Items)
-            {
-                ListViewItem selectedItem = item as ListViewItem;
-                ingredients.Add(selectedItem.Tag as Ingredient);
-            }
-            return ingredients;
-        }
-        public static List<Ingredient> GetIngredientsFromRecipe(Recipe recipe,UnitOfWork unitOfWork)
-        {
-            return unitOfWork.Recipes.FindById(recipe.ID).Ingredients.ToList();
-        }
 
+        // Utmarkerad pga unused
+        //public static List<Ingredient> GetIngredientsFromLv(ListView listView)
+        //{
+        //    List<Ingredient> ingredients = new();
+        //    foreach(var item in listView.Items)
+        //    {
+        //        ListViewItem selectedItem = item as ListViewItem;
+        //        ingredients.Add(selectedItem.Tag as Ingredient);
+        //    }
+        //    return ingredients;
+        //}
+
+        // Utmarkerad pga unused
+        //public static List<Ingredient> GetIngredientsFromRecipe(Recipe recipe,UnitOfWork unitOfWork)
+        //{
+        //    return unitOfWork.Recipes.FindById(recipe.ID).Ingredients.ToList();
+        //}
+
+        // Takes a listview, Creates an empty generic list, and then fill the list with all the objects from the listview
         public static List<T> GetListFromLv<T> (ListView listView) where T : class
         {
             List<T> list = new();
@@ -54,20 +61,24 @@ namespace YellowCarrot.Managers
             }
             return list;
         }
+        // Takes a string, then creates a Tag object with the name
         public static Tag CreateTag(string name)
         {
             Tag tag = new();
             tag.Name = name;
             return tag;
         }
+        // Takes a string name, string unit, int quantity, trims the strings, and then Creates an inswstance of Ingredient 
         public static Ingredient CreateIngredient(string name,string unit, int quantity)
         {
             Ingredient ingredient = new();
-            ingredient.Name = name;
-            ingredient.Unit = unit;
+            ingredient.Name = name.Trim();
+            ingredient.Unit = unit.Trim();
             ingredient.Quantity= quantity;
             return ingredient;
         }
+        // Takes a string and a list of Ingredients, Creates an empty recipe, iterates through the list of ingredients and adds the ingredients to the recipe
+        // Trims the string and assign it as the Recipe.Name property, Takes the int from AppManager.LoggedInUser.ID and assign it to the Recipe.UserID
         public static Recipe CreateRecipe(string recipeName, List<Ingredient> ingredients)
         {
             Recipe recipe = new();
@@ -75,7 +86,7 @@ namespace YellowCarrot.Managers
             {
                 recipe.Ingredients.Add(ingredient);
             }
-            recipe.Name = recipeName;
+            recipe.Name = recipeName.Trim();
             recipe.UserID = AppManager.LoggedInUser.ID;
             return recipe;
         }
@@ -91,21 +102,26 @@ namespace YellowCarrot.Managers
         //   // recipe.UserID = (int)AppManager.UserID;
         //    return recipe;
         //}
+
+        // Takes 4 strings (firstname,lastname,username,password), Create an empty user object, trims the strings and assign them to the user object and returns the object
         public static User CreateUser(string firstname, string lastname,string username, string password)
         {
             User user = new();
-            user.FirstName = firstname;
-            user.LastName = lastname;
-            user.UserName = username;
-            user.Password = password;
+            user.FirstName = firstname.Trim();
+            user.LastName = lastname.Trim();
+            user.UserName = username.Trim();
+            user.Password = password.Trim();
             return user;
         }
+
+        // Takes a string(username) and an instance of UserRepository, create a user object, call the FindByUserName method from UserRepository and assign content to user object, assign the user to the static AppManager.LoggedInUser, then saves the database
         public static void LogInUser(string username,UserRepository userRepo)
         {
             User? user = userRepo.FindByUserName(username);
             LoggedInUser = user;
-            userRepo.Complete();    
+            userRepo.Complete();     // Pointless?
         }
+        // Takes 2 strings(username,password) and an instance of UserRepository, checks if either of the strings are null, returns true if they are not, and false if they are
         public static bool CheckRegisterRequirements(string username, string password,UserRepository userRepo)
         {
             if (username != null && password != null)
@@ -117,6 +133,7 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
+        // Takes a string(username), checks if the length is equal or larger than 4, returns true if it is, and false if it's not
         public static bool CheckUsernameRequirements(string username)
         {
             if (username.Length >= 4)
@@ -125,6 +142,7 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
+        // Takes a string(password), checks if the length is equal or larger than 4, returns true if it is, and false if it's not
         public static bool CheckPasswordRequirements(string password)
         {
             if (password.Length >= 4)
@@ -133,27 +151,34 @@ namespace YellowCarrot.Managers
             }
             return false;
         }
+        // Takes a string(username) and an instance of UserRepository, calls the UserRepository.FindByUserName method with the string(username), if it returns null (if the username is not in the database) return true, else return false
         public static bool CheckUsernameAvailability(string username, UserRepository userRepo)
         {
                 if (userRepo.FindByUserName(username) == null)
                 {
-                    userRepo.Complete();
+                    // userRepo.Complete(); //pointless?
                     return true;
                 }
             return false;
         }
+        // Takes 2 string(username,password) and an instance of UserRepository, calls the UserRepository.FindByUserName method with the string(username), if it returns an user check that users password property with the string(password), if it matches return true, else return false
         public static bool CheckLogIn(string username, string password,UserRepository userRepo)
         {
-            if (userRepo.FindByUserName(username).Password == password)
+            User user = userRepo.FindByUserName(username);
+            if(user != null && user.Password==password)
             {
-                userRepo.Complete();
                 return true;
             }
             return false;
+            //if (userRepo.FindByUserName(username).Password == password)
+            //{
+            //    userRepo.Complete(); // ???
+            //    return true;
+            //}
+            //return false;
         }
         public static bool IsRecipeOwnedByUser(ListView listView)
         {
-
             // Går att optimera med en GetUserFromListView
             Recipe recipe = AppManager.GetRecipeFromListView(listView);
             if(recipe.UserID==AppManager.LoggedInUser.ID) // krasch??
@@ -182,11 +207,29 @@ namespace YellowCarrot.Managers
             }
             return null;
         }
-
-        public static string LoadRecipeListSourceName(Object obj)
+        public static Ingredient GetIngredientFromListView(ListView listView)
         {
-            return $"{obj.ToString()}s Recipe";
+            if (listView.SelectedItem != null)
+            {
+                ListViewItem selectedItem = listView.SelectedItem as ListViewItem;
+                Ingredient? selectedRecipe = selectedItem.Tag as Ingredient;
+                return selectedRecipe;
+            }
+            return null;
         }
+        public static void DisplayNullRecipesFoundListView(ListView listView)
+        {
+            listView.Items.Clear();
+            string s = "No Recipes Found";
+            listView.Items.Add(s);
+            //CreateListViewItem(s,s);
+        }
+
+        // Utmarkerad pga unused
+        //public static string LoadRecipeListSourceName(Object obj)
+        //{
+        //    return $"{obj.ToString()}s Recipe";
+        //}
 
         public static void LoadUnitEnums(ComboBox cbo)
         {
@@ -208,14 +251,17 @@ namespace YellowCarrot.Managers
             }
         }
 
-        public static void LoadRecipesFromTag()
-        {
+        // Utmarkerad pga unused
+        //public static void LoadRecipesFromTag()
+        //{
 
-        }
-        public static void LoadRecipesFromUser()
-        {
+        //}
+        // Utmarkerad pga unused
+        //public static void LoadRecipesFromUser()
+        //{
 
-        }
+        //}
+
         public static void LoadRecipeListToListView(List<Recipe> recipes, ListView listView)
         {
             listView.Items.Clear();

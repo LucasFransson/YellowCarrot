@@ -29,8 +29,7 @@ namespace YellowCarrot.Data
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotUserDB;Trusted_Connection=True");
         }
-        
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+               protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseEncryption(_provider);
         }

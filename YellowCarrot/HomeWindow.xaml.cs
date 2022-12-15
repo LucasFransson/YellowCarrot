@@ -76,7 +76,6 @@ namespace YellowCarrot
 
         private void btnEditRecipe_Click(object sender, RoutedEventArgs e)
         {
-
             Recipe recipe = AppManager.GetRecipeFromListView(lvRecipes);
             if (recipe != null)
             {
@@ -119,32 +118,60 @@ namespace YellowCarrot
                 {
                     switch (true)
                     {
-                        case true when rbtnSearchRecipe.IsChecked == true:
+                         case true when rbtnSearchRecipe.IsChecked == true:
                             {
+                                
                                 List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByRecipeName(tbxSearchInput.Text);
-                                AppManager.LoadRecipeListToListView(recipes,lvRecipes);
+                                if (recipes.Count > 0)
+                                {
+                                    AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                }
+                                else
+                                {
+                                    AppManager.DisplayNullRecipesFoundListView(lvRecipes);
+                                }
                                 break;
                             }
                         case true when rbtnSearchTag.IsChecked == true:
                             {
-                                List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByTag(cboTags.SelectedItem.ToString());
-                                AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByTag(cboTags.SelectedItem.ToString()); // funkar ej
+                                if (recipes.Count > 0)
+                                {
+                                    AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                }
+                                else
+                                {
+                                    AppManager.DisplayNullRecipesFoundListView(lvRecipes);
+                                }
                                 break;
                             }
                         case true when rbtnSearchUser.IsChecked == true:
                             {
                                 List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByUserName(tbxSearchInput.Text,userRepo);
-                                AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                if (recipes.Count > 0)
+                                {
+                                    AppManager.LoadRecipeListToListView(recipes, lvRecipes);
 
-                                if (AppManager.CheckIfUsernameEndsWithS(tbxSearchInput.Text)) { lblRecipes.Content = $"{tbxSearchInput.Text} Recipes"; }
-                                else { lblRecipes.Content = $"{tbxSearchInput.Text}s Recipes"; }
-
+                                    if (AppManager.CheckIfUsernameEndsWithS(tbxSearchInput.Text)) { lblRecipes.Content = $"{tbxSearchInput.Text} Recipes"; }
+                                    else { lblRecipes.Content = $"{tbxSearchInput.Text}s Recipes"; }
+                                }
+                                else
+                                {
+                                    AppManager.DisplayNullRecipesFoundListView(lvRecipes);
+                                }
                                 break;
                             }
                         case true when rbtnSearchIngredient.IsChecked == true:
                             {
                                 List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByIngredient(tbxSearchInput.Text);
-                                AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                if (recipes.Count > 0)
+                                {
+                                    AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                                }
+                                else
+                                {
+                                    AppManager.DisplayNullRecipesFoundListView(lvRecipes);
+                                }
                                 break;
                             }
                         default: break;
@@ -189,6 +216,11 @@ namespace YellowCarrot
             {
                 btnEditRecipe.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void lvCurrentRecipe_LostFocus(object sender, RoutedEventArgs e)
+        {
+            btnOpenRecipe.Visibility= Visibility.Collapsed;
         }
     }
 }

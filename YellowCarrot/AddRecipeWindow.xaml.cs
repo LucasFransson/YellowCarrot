@@ -30,10 +30,10 @@ namespace YellowCarrot
             {
                 AppManager.LoadUnitEnums(cboUnit);
                 List<Tag> tags = unitOfWork.Tags.GetAllTags();
+                cboTags.Items.Add("Create New Tag");
                 AppManager.LoadObjectsToComboBox(cboTags, tags);
             }
         }
-
         private void btnSaveRecipe_Click(object sender, RoutedEventArgs e)
         {
             List<Ingredient> ingredients = AppManager.GetListFromLv<Ingredient>(lvRecipe);
@@ -41,38 +41,55 @@ namespace YellowCarrot
 
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                if (tbxTag.Text.Count() != 0) 
+                if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString()=="Create New Tag") 
                 {
                     Tag tag = AppManager.CreateTag(tbxTag.Text);
                     recipe.TagName= tag.Name;
                     unitOfWork.Tags.Add(tag);
+                    //unitOfWork.Complete();
+                    //recipe.TagID= tag.ID;
                 }
-                
+                else if(cboTags.SelectedItem!= null) 
+                {
+                    //recipe.TagName = cboTags.SelectedItem.ToString();
+                    Tag tag = unitOfWork.Tags.GetTagByName(cboTags.SelectedItem.ToString());
+                    recipe.TagName= tag.Name;
+                    unitOfWork.Tags.Add(tag);
+                }
                 unitOfWork.Recipes.Add(recipe);
                 unitOfWork.Complete();
-                
             }
             MessageBox.Show($"You have added a {recipe.Name} Recipe!");
             HomeWindow homeWin = new();
             homeWin.Show();
             this.Close();
         }
-
         private void btnReturn_Click(object sender, RoutedEventArgs e)
         {
             HomeWindow homeWin = new();
             homeWin.Show();
             this.Close();
         }
-
         private void btnAddIngredient_Click(object sender, RoutedEventArgs e)
         {
-            Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), int.Parse(tbxIngredientQuantity.Text)); // fånga null om inget är valt till att bli "";
-
-            AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient,$"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
-
+            //foreach(char c in tbxIngredient.Text)
+            //{
+            //    int number = 0;
+            //    if(char.IsNumber(c))
+            //    {
+            //        number += int.Parse(c);
+            //    }
+            //}
+            bool isNumberOk = int.TryParse(tbxIngredientQuantity.Text, out int number);
+            if (isNumberOk)
+            {
+                Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), number/*int.Parse(tbxIngredientQuantity.Text)*/); // fånga null om inget är valt till att bli "";
+                AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
+            }
+            tbxIngredient.Text = "";
+            tbxIngredientQuantity.Text = "";
+            
         }
-
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
             Tag tag = AppManager.CreateTag(tbxTag.Text);
@@ -80,6 +97,11 @@ namespace YellowCarrot
             {
 
             }
+        }
+
+        private void cboTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tbxTag.Text = "";
         }
     }
 }
