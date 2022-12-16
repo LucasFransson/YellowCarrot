@@ -42,7 +42,7 @@ namespace YellowCarrot.Managers
         {
             return _context.Recipes.Include(r => r.Ingredients).First(r => r.ID == recipeID);
         }
-        public Recipe GetRecipeIncluded(int recipeID) // error pga tag id != key
+        public Recipe GetRecipeIncluded(int recipeID) // error pga tag id != key fixa om tid finns
         {
             return _context.Recipes.Include(r => r.Ingredients).Include(r=>r.TagID).First(r => r.ID == recipeID); 
         }
@@ -58,25 +58,30 @@ namespace YellowCarrot.Managers
         {
             return _context.Recipes.Where(r => r.TagName == tag).ToList();
         }
-        public List<Recipe> GetRecipesByIngredient(string ingredient)
-        {
-            // Se om du hinner fixa denna, vet inte varför den inte returnerar något.
+        //public List<Recipe> GetRecipesByIngredient(string ingredient)
+        //{
+        //    // Se om du hinner fixa denna, vet inte varför den inte returnerar något.
 
-            return _context.Recipes.Include(r => r.Ingredients).Where(i => i.Name == ingredient).ToList();
+        //    //List<Recipe> recipes = GetAllRecipesWithIngredients();
+        //    //return recipes.Where(i => i);
+
+        //    //return (List<Recipe>)_context.Recipes.Select(r => r.Ingredients.Where(i => i.Name == ingredient));
+
+        //    //return _context.Recipes.Include(r => r.Ingredients).Where(i => i.Name == ingredient).ToList();
 
 
-            //Fixa denna om tid finns
-            // return _context.Recipes.Include(r => r.Ingredients).Where(r => r.Ingredients.FirstOrDefault(i => i.Name == ingredient));
+        //    //Fixa denna om tid finns
+        //    // return _context.Recipes.Include(r => r.Ingredients).Where(r => r.Ingredients.FirstOrDefault(i => i.Name == ingredient));
 
-            //.Where(r => r.Ingredients.ForEach(i => i.Name == ingredient));
-            // Where(r => r.Ingredients.Contains(ingredient)).ToList();
-        }
+        //    //.Where(r => r.Ingredients.ForEach(i => i.Name == ingredient));
+        //    // Where(r => r.Ingredients.Contains(ingredient)).ToList();
+        //}
 
 
         public string GetUserNameByRecipeId(int recipeID, UserRepository userRepo)
         {
             Recipe recipe = _context.Recipes.FirstOrDefault(r => r.ID == recipeID);
-            return userRepo.FindById(recipe.UserID).UserName; // kraschar ibland? på äggmacka // på annan user? Kraschade inte innan? vad händer??
+            return userRepo.FindById(recipe.UserID).UserName; 
         }
     }
 }

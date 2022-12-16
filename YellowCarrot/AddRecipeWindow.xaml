@@ -34,6 +34,20 @@
             <ColumnDefinition Width = "30"/>
         </Grid.ColumnDefinitions>
 
+        <Label x:Name="lblBackground"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="7"
+               Height="100"
+            >
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
         <Label x:Name="lblQuantity"
                Content="Quantity"
                Grid.Row="3"
@@ -148,8 +162,9 @@
                 >
             <Button.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#63BCC9" Offset="1"/>
-                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                    <GradientStop Color="#F9C449" Offset="1"/>
+                    <GradientStop Color="#EEB462" Offset="0"/>
+                    <GradientStop Color="#F9C449" Offset="0.583"/>
                 </LinearGradientBrush>
             </Button.Foreground>
         </Button>

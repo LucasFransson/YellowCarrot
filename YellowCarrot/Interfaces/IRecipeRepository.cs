@@ -18,7 +18,7 @@ namespace YellowCarrot.Interfaces
         string GetUserNameByRecipeId(int recipeID,UserRepository userRepo);
 
         List<Recipe> GetRecipesByUserName(string userName, UserRepository userRepo);
-        List<Recipe> GetRecipesByIngredient(string ingredientName);
+        //List<Recipe> GetRecipesByIngredient(string ingredientName);
         List<Recipe> GetRecipesByTag(string tag);
         List<Recipe> GetRecipesByRecipeName(string recipeName);
         List<Recipe> GetRecipesByUserID(int userID);

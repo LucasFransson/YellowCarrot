@@ -1,9 +1,11 @@
-﻿using EntityFrameworkCore.EncryptColumn.Extension;
+﻿using EntityFrameworkCore.EncryptColumn.Attribute;
+using EntityFrameworkCore.EncryptColumn.Extension;
 using EntityFrameworkCore.EncryptColumn.Interfaces;
 using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +34,31 @@ namespace YellowCarrot.Data
                protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseEncryption(_provider);
+            //    modelBuilder.Entity<User>().HasData(new User()
+            //    {
+            //        ID = 1,
+            //        UserName = "user",
+            //        Password="user",
+            //        FirstName = "Test",
+            //        LastName="Testsson"
+
+            //    },
+            //  new User()
+            //  {
+            //      ID = 2,
+            //      UserName = "McDog1337",
+            //      Password = "kodden",
+            //      FirstName = "Kod",
+            //      LastName = "McDog"
+            //  }, new User()
+            //  {
+            //      ID = 3,
+            //      UserName = "DarthTyrannus",
+            //      Password = "order66",
+            //      FirstName = "Emperor",
+            //      LastName = "Palpatine"
+            //  });
         }
     }
 }
+

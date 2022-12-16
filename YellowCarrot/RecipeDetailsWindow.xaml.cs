@@ -20,24 +20,21 @@ namespace YellowCarrot
     /// <summary>
     /// Interaction logic for RecipeDetailsWindow.xaml
     /// </summary>
-    public partial class RecipeDetailsWindow : Window
+    public partial class RecipeDetailsWindow : Window   // allt här borde refaktorerats men tiden räcker inte till tyvärr. UI Elementen som hanterar Taggar är hidden, men en del av logiken finns kvar här.
     {
         Recipe _recipe; 
         List<Ingredient> _recipeIngredients = new(); // Listan är till för att kunna lösa problem som uppstod när ingredienser skulle tas bort från listviewen dynamiskt men endast raderas ur DB vid btnSave.Click
         List<Ingredient> _ingredientsToRemove = new(); // samma som ovan
         List<Ingredient> _ingredientsToAdd = new(); 
-        public RecipeDetailsWindow(Recipe recipe)
+        public RecipeDetailsWindow(int recipeID)
         {
             InitializeComponent();
 
-            //this._recipe= recipe;
-          
-
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                _recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID); // Jag kunde inte nå Ingredients och Tags via Receptet som jag skickade med, så därför får jag köra en Get.Include metod här.  Det kan gå att lösa via metoder i korrekt _Context (IngredientRepository), checka detta 
+                _recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipeID); // Jag kunde inte nå Ingredients och Tags via Receptet som jag skickade med, så därför får jag köra en Get.Include metod här.  Det kan gå att lösa via metoder i korrekt _Context (IngredientRepository), checka detta 
                 
-                lblEditHeadliner.Content = $"Editing {recipe.Name} Recipe";
+                lblEditHeadliner.Content = $"Editing {_recipe.Name} Recipe";
                 tbxRecipeName.Text = _recipe.Name;
                 AppManager.LoadUnitEnums(cboUnit); // loads all the available strings from the enum Units to the combobox
 
@@ -66,17 +63,22 @@ namespace YellowCarrot
                 if(recipe != null)
                 {
                     _ingredientsToAdd.ForEach(i => recipe.Ingredients.Add(i));
+
+                    if (recipe.Name != tbxRecipeName.Text)
+                    {
+                        recipe.Name = tbxRecipeName.Text;
+                    }
                 }
-                
+               
                 unitOfWork.Complete();
 
-                MessageBox.Show($"You have edited the {_recipe.Name} Recipe!");
+                MessageBox.Show($"You have succesfully edited the {_recipe.Name} Recipe!");
                 HomeWindow homeWin = new();
                 homeWin.Show();
                 this.Close();
             }
         }
-        private void btnAddTag_Click(object sender, RoutedEventArgs e)
+        private void btnAddTag_Click(object sender, RoutedEventArgs e) // Inte hunnit implementera detta 
         {
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
@@ -92,7 +94,6 @@ namespace YellowCarrot
                 Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), number/*int.Parse(tbxIngredientQuantity.Text)*/); // fånga null om inget är valt till att bli "";
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
                 _ingredientsToAdd.Add(ingredient);
-                //_recipe.Ingredients.Add(ingredient);
             }
             tbxIngredient.Text = "";
             tbxIngredientQuantity.Text = "";
@@ -105,7 +106,7 @@ namespace YellowCarrot
             this.Close();
         }
 
-        private void btnRemoveTag_Click(object sender, RoutedEventArgs e)
+        private void btnRemoveTag_Click(object sender, RoutedEventArgs e) // inte hunnit implementera/fixa detta
         {
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
@@ -121,8 +122,6 @@ namespace YellowCarrot
             _recipeIngredients.Remove(ingredient);
             _ingredientsToRemove.Add(ingredient);
             AppManager.LoadIngredients(lvRecipe, _recipeIngredients);
-
-
 
             //    // Koden nedan tar bort ingrediensen direkt utan att behöva savea, ändra lite snabbt så koden passsar bättre med resten av appens logik
             //using (var unitOfWork = new UnitOfWork(new AppDbContext()))
@@ -140,14 +139,14 @@ namespace YellowCarrot
 
         private void btnRemoveRecipe_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show($"Are you sure you want to remove the _recipe : {_recipe.Name} ?" , "Remove Recipe" , MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if(MessageBox.Show($"Are you sure you want to remove the recipe : {_recipe.Name} ?" , "Remove Recipe" , MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 using (var unitOfWork = new UnitOfWork(new AppDbContext()))
                 {
                     unitOfWork.Recipes.Remove(_recipe);
                     //unitOfWork.Recipes.RemoveWhere(r=>r.ID==_recipe.ID);
                     unitOfWork.Complete();
-                    MessageBox.Show($"You have removed the _recipe : {_recipe.Name}!", "Recipe Removed");
+                    MessageBox.Show($"You have removed the recipe : {_recipe.Name}!", "Recipe Removed");
                     HomeWindow homeWin = new();
                     homeWin.Show();
                     this.Close();

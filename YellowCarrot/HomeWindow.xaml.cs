@@ -68,7 +68,6 @@ namespace YellowCarrot
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
             AppManager.LoggedInUser = null;
-            //AppManager.UserID= null;
             MainWindow mainWin = new();
             mainWin.Show();
             this.Close();
@@ -79,7 +78,7 @@ namespace YellowCarrot
             Recipe recipe = AppManager.GetRecipeFromListView(lvRecipes);
             if (recipe != null)
             {
-                RecipeDetailsWindow detailsWin = new(recipe);
+                RecipeDetailsWindow detailsWin = new(recipe.ID);
                 detailsWin.Show();
                 this.Close();
             }
@@ -133,7 +132,7 @@ namespace YellowCarrot
                             }
                         case true when rbtnSearchTag.IsChecked == true:
                             {
-                                List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByTag(cboTags.SelectedItem.ToString()); // funkar ej
+                                List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByTag(cboTags.SelectedItem.ToString());
                                 if (recipes.Count > 0)
                                 {
                                     AppManager.LoadRecipeListToListView(recipes, lvRecipes);
@@ -160,19 +159,20 @@ namespace YellowCarrot
                                 }
                                 break;
                             }
-                        case true when rbtnSearchIngredient.IsChecked == true:
-                            {
-                                List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByIngredient(tbxSearchInput.Text);
-                                if (recipes.Count > 0)
-                                {
-                                    AppManager.LoadRecipeListToListView(recipes, lvRecipes);
-                                }
-                                else
-                                {
-                                    AppManager.DisplayNullRecipesFoundListView(lvRecipes);
-                                }
-                                break;
-                            }
+                            // Utmarkerad pga logiskt fel och tidsbrist
+                        //case true when rbtnSearchIngredient.IsChecked == true:
+                        //    {
+                        //        List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByIngredient(tbxSearchInput.Text);
+                        //        if (recipes.Count > 0)
+                        //        {
+                        //            AppManager.LoadRecipeListToListView(recipes, lvRecipes);
+                        //        }
+                        //        else
+                        //        {
+                        //            AppManager.DisplayNullRecipesFoundListView(lvRecipes);
+                        //        }
+                        //        break;
+                        //    }
                         default: break;
                     }
                 }

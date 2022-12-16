@@ -34,6 +34,20 @@
             <ColumnDefinition Width = "30"/>
         </Grid.ColumnDefinitions>
 
+        <Label x:Name="lblBackground"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="7"
+               Height="100"
+            >
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        
         <Label x:Name="lblQuantity"
                Content="Quantity"
                Grid.Row="3"
@@ -56,11 +70,13 @@
                Content="New Tag"
                Grid.Row="3"
                Grid.Column="4"
+               Visibility="Hidden"
                />
         <Label x:Name="lblTags"
                Content="Tags"
                Grid.Row="3"
                Grid.Column="5"
+               Visibility="Hidden"
                />
         <ComboBox x:Name="cboUnit"
                   Grid.Row="3"
@@ -79,6 +95,7 @@
                   FontSize="26"
                   VerticalContentAlignment="Center"
                   HorizontalContentAlignment="Center"
+                  Visibility="Hidden"
                    />
         <Label x:Name="lblEditHeadliner"
                Content="Edit Recipe"
@@ -126,6 +143,7 @@
                  FontSize="26"
                  VerticalContentAlignment="Center"
                  HorizontalContentAlignment="Center"
+                 Visibility="Hidden"
                  />
         <Button x:Name="btnRemoveRecipe"
                 Content="Remove Recipe"
@@ -169,6 +187,7 @@
                 VerticalAlignment="Bottom"
                 Background="{x:Null}"
                 Margin="10,0,0,10"
+                Visibility="Hidden"
                 Click="btnRemoveTag_Click"
             
             />
@@ -199,8 +218,9 @@
                 >
             <Button.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#63BCC9" Offset="1"/>
-                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                    <GradientStop Color="#F9C449" Offset="1"/>
+                    <GradientStop Color="#EEB462" Offset="0"/>
+                    <GradientStop Color="#F9C449" Offset="0.583"/>
                 </LinearGradientBrush>
             </Button.Foreground>
         </Button>

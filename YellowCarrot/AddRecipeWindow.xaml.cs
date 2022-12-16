@@ -41,20 +41,32 @@ namespace YellowCarrot
 
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString()=="Create New Tag")  // konstig
+                if (cboTags.SelectedItem != null) // allt här borde refaktorerats men tiden räcker inte till tyvärr utan risk för buggar
+                {
+                    if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString() == "Create New Tag")  // Försöker fixa problemet som uppstår om en user väljer något i cboTags, sen skriver i tbx, sen väljer något i cbotags. 
+                    {
+                        Tag tag = AppManager.CreateTag(tbxTag.Text);
+                        recipe.TagName = tag.Name;
+                        unitOfWork.Tags.Add(tag);
+                        unitOfWork.Complete(); // Kör UnitOfWork.Complete() här för att få ett id på tag så jag kan ge det till receptet.
+                        recipe.TagID=tag.ID;
+                    }
+                    else 
+                    {
+
+                        Tag tag = unitOfWork.Tags.GetTagByName(cboTags.SelectedItem.ToString());
+                        recipe.TagName = tag.Name;
+                        recipe.TagID = tag.ID;    // Här behövs inte Complete() köras då det rör sig om en tidigare skapad tag
+                    }
+                }
+                if(tbxTag.Text.Count()!=0)
                 {
                     Tag tag = AppManager.CreateTag(tbxTag.Text);
-                    recipe.TagName= tag.Name;
+                    recipe.TagName = tag.Name;
                     unitOfWork.Tags.Add(tag);
-                    //unitOfWork.Complete();
-                    //_recipe.TagID= tag.ID;
-                }
-                else if(cboTags.SelectedItem!= null) 
-                {
-                    //_recipe.TagName = cboTags.SelectedItem.ToString();
-                    Tag tag = unitOfWork.Tags.GetTagByName(cboTags.SelectedItem.ToString());
-                    recipe.TagName= tag.Name;
-                    unitOfWork.Tags.Add(tag);
+                    unitOfWork.Complete();
+                    recipe.TagID = tag.ID;
+                    
                 }
                 unitOfWork.Recipes.Add(recipe);
                 unitOfWork.Complete();
@@ -72,14 +84,6 @@ namespace YellowCarrot
         }
         private void btnAddIngredient_Click(object sender, RoutedEventArgs e)
         {
-            //foreach(char c in tbxIngredient.Text)
-            //{
-            //    int number = 0;
-            //    if(char.IsNumber(c))
-            //    {
-            //        number += int.Parse(c);
-            //    }
-            //}
             foreach(var item in lvRecipe.Items)
             {
                 if(item.ToString().Contains(tbxIngredient.Text))

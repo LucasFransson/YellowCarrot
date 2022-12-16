@@ -108,6 +108,8 @@ namespace YellowCarrot.Managers
                 recipe.Ingredients.Add(ingredient);
             }
         }
+
+        // utmarkerad pga unused
         //public static Recipe CreateRecipe(string recipeName,params Ingredient[] ingredients)
         //{
         //    Recipe _recipe = new();
@@ -173,7 +175,6 @@ namespace YellowCarrot.Managers
         {
                 if (userRepo.FindByUserName(username) == null)
                 {
-                    // userRepo.Complete(); //pointless?
                     return true;
                 }
             return false;
@@ -197,10 +198,10 @@ namespace YellowCarrot.Managers
         public static bool IsRecipeOwnedByUser(ListView listView)
         {
             // Går att optimera med en GetUserFromListView
-            Recipe recipe = AppManager.GetRecipeFromListView(listView);
+            Recipe? recipe = AppManager.GetRecipeFromListView(listView);
             if (recipe != null)
             {
-                if (recipe.UserID == LoggedInUser.ID) // krasch??
+                if (recipe.UserID == LoggedInUser.ID) 
                 {
                     return true;
                 }
@@ -245,11 +246,6 @@ namespace YellowCarrot.Managers
             //CreateListViewItem(s,s);
         }
 
-        // Utmarkerad pga unused
-        //public static string LoadRecipeListSourceName(Object obj)
-        //{
-        //    return $"{obj.ToString()}s Recipe";
-        //}
 
         public static void LoadUnitEnums(ComboBox cbo)
         {
@@ -271,16 +267,6 @@ namespace YellowCarrot.Managers
             }
         }
 
-        // Utmarkerad pga unused
-        //public static void LoadRecipesFromTag()
-        //{
-
-        //}
-        // Utmarkerad pga unused
-        //public static void LoadRecipesFromUser()
-        //{
-
-        //}
 
         public static void LoadRecipeListToListView(List<Recipe> recipes, ListView listView)
         {
