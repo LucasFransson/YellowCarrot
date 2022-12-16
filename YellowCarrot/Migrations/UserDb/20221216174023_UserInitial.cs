@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace YellowCarrot.Migrations.UserDb
 {
     /// <inheritdoc />
@@ -24,6 +26,16 @@ namespace YellowCarrot.Migrations.UserDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.ID);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "ID", "FirstName", "LastName", "Password", "UserName" },
+                values: new object[,]
+                {
+                    { 1, "Test", "Testsson", "Hua9guHu3yKtEiinP1DSqQ==", "user" },
+                    { 2, "Kod", "McDog", "9MM8erOgTI+BwqG4b6hm5Q==", "McDog1337" },
+                    { 3, "Emperor", "Palpatine", "uIKSkLiWUIGEq3OUnfpt7Q==", "DarthTyrannus" }
                 });
         }
 

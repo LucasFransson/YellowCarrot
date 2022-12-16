@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace YellowCarrot.Migrations
 {
     /// <inheritdoc />
@@ -64,6 +66,29 @@ namespace YellowCarrot.Migrations
                         principalTable: "Recipes",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Recipes",
+                columns: new[] { "ID", "Name", "TagID", "TagName", "UserID" },
+                values: new object[,]
+                {
+                    { 1, "Äggmacka Äggus Maximus", null, null, 1 },
+                    { 2, "Brända Halsmandlar", null, null, 2 },
+                    { 3, "Finsk Sommarsoppa", null, null, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Ingredients",
+                columns: new[] { "ID", "Name", "Quantity", "RecipeID", "Unit" },
+                values: new object[,]
+                {
+                    { 1, "Ägg", 2, 1, "st" },
+                    { 2, "Bröd", 1, 1, "st" },
+                    { 3, "Smör", 1, 1, "dl" },
+                    { 4, "Halsmandlar", 2, 2, "st" },
+                    { 5, "Eld", 1, 2, "st" },
+                    { 6, "Vodka", 1, 3, "l" }
                 });
 
             migrationBuilder.CreateIndex(

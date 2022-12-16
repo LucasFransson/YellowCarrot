@@ -29,35 +29,36 @@ namespace YellowCarrot.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotUserDB;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotUserDB;Trusted_Connection=True",
+                options => options.EnableRetryOnFailure());
         }
                protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseEncryption(_provider);
-            //    modelBuilder.Entity<User>().HasData(new User()
-            //    {
-            //        ID = 1,
-            //        UserName = "user",
-            //        Password="user",
-            //        FirstName = "Test",
-            //        LastName="Testsson"
+            modelBuilder.Entity<User>().HasData(new User()
+            {
+                ID = 1,
+                UserName = "user",
+                Password = "user",
+                FirstName = "Test",
+                LastName = "Testsson"
 
-            //    },
-            //  new User()
-            //  {
-            //      ID = 2,
-            //      UserName = "McDog1337",
-            //      Password = "kodden",
-            //      FirstName = "Kod",
-            //      LastName = "McDog"
-            //  }, new User()
-            //  {
-            //      ID = 3,
-            //      UserName = "DarthTyrannus",
-            //      Password = "order66",
-            //      FirstName = "Emperor",
-            //      LastName = "Palpatine"
-            //  });
+            },
+          new User()
+          {
+              ID = 2,
+              UserName = "McDog1337",
+              Password = "kodden",
+              FirstName = "Kod",
+              LastName = "McDog"
+          }, new User()
+          {
+              ID = 3,
+              UserName = "DarthTyrannus",
+              Password = "order66",
+              FirstName = "Emperor",
+              LastName = "Palpatine"
+          });
         }
     }
 }

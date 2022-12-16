@@ -27,84 +27,86 @@ namespace YellowCarrot.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotAppDB;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YellowCarrotAppDB;Trusted_Connection=True",
+                options => options.EnableRetryOnFailure());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //    modelBuilder.Entity<Recipe>().HasData(new Recipe()
-            //    {
-            //        ID = 1,
-            //        UserID = 1,
-            //        Name = "Äggmacka Äggus Maximus"
 
-            //    },
-            //    new Recipe()
-            //    {
-            //        ID = 2,
-            //        UserID = 2,
-            //        Name = "Brända Halsmandlar",
-            //    }, new Recipe()
-            //    {
-            //        ID = 3,
-            //        UserID = 3,
-            //        Name = "Finsk Sommarsoppa"
-            //    });
 
-            //    modelBuilder.Entity<Ingredient>().HasData(new Ingredient()
-            //    {
-            //        ID = 1,
-            //        RecipeID= 1,
-            //        Name = "Ägg",
-            //        Quantity = 2,
-            //        Unit="st"
+            modelBuilder.Entity<Ingredient>().HasData(new Ingredient()
+            {
+                ID = 1,
+                RecipeID = 1,
+                Name = "Ägg",
+                Quantity = 2,
+                Unit = "st"
 
-            //    },
-            //   new Ingredient()
-            //   {
-            //       ID = 2,
-            //       RecipeID=1,
-            //       Name = "Bröd",
-            //       Quantity = 1,
-            //       Unit="st"
+            },
+           new Ingredient()
+           {
+               ID = 2,
+               RecipeID = 1,
+               Name = "Bröd",
+               Quantity = 1,
+               Unit = "st"
 
-            //   },
-            //   new Ingredient()
-            //   {
-            //       ID = 3,
-            //       RecipeID = 1,
-            //       Name = "Smör",
-            //       Quantity = 1,
-            //       Unit = "dl"
-            //   },
-            //   new Ingredient()
-            //   {
-            //       ID = 4,
-            //       RecipeID = 2,
-            //       Name = "Halsmandlar",
-            //       Quantity = 2,
-            //       Unit = "st"
+           },
+           new Ingredient()
+           {
+               ID = 3,
+               RecipeID = 1,
+               Name = "Smör",
+               Quantity = 1,
+               Unit = "dl"
+           },
+           new Ingredient()
+           {
+               ID = 4,
+               RecipeID = 2,
+               Name = "Halsmandlar",
+               Quantity = 2,
+               Unit = "st"
 
-            //   },
-            //   new Ingredient()
-            //   {
-            //   ID = 5,
-            //   RecipeID = 2,
-            //   Name = "Eld",
-            //   Quantity = 1,
-            //   Unit = "st"
+           },
+           new Ingredient()
+           {
+               ID = 5,
+               RecipeID = 2,
+               Name = "Eld",
+               Quantity = 1,
+               Unit = "st"
 
-            //   },
-            //   new Ingredient()
-            //   {
-            //   ID = 2,
-            //   RecipeID = 3,
-            //   Name = "Vodka",
-            //   Quantity = 1,
-            //   Unit = "l"
+           },
+           new Ingredient()
+           {
+               ID = 6,
+               RecipeID = 3,
+               Name = "Vodka",
+               Quantity = 1,
+               Unit = "l"
 
-            //   });
+           });
+            modelBuilder.Entity<Recipe>().HasData(new Recipe()
+            {
+                ID = 1,
+                UserID = 1,
+                Name = "Äggmacka Äggus Maximus"
+
+            },
+            new Recipe()
+            {
+                ID = 2,
+                UserID = 2,
+                Name = "Brända Halsmandlar",
+            }, new Recipe()
+            {
+                ID = 3,
+                UserID = 3,
+                Name = "Finsk Sommarsoppa"
+            });
         }
     }
 

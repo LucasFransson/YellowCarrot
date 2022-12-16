@@ -12,7 +12,7 @@ using YellowCarrot.Data;
 namespace YellowCarrot.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221213061246_AppInitial")]
+    [Migration("20221216174002_AppInitial")]
     partial class AppInitial
     {
         /// <inheritdoc />
@@ -54,6 +54,56 @@ namespace YellowCarrot.Migrations
                     b.HasIndex("RecipeID");
 
                     b.ToTable("Ingredients");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Name = "Ägg",
+                            Quantity = 2,
+                            RecipeID = 1,
+                            Unit = "st"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Name = "Bröd",
+                            Quantity = 1,
+                            RecipeID = 1,
+                            Unit = "st"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Name = "Smör",
+                            Quantity = 1,
+                            RecipeID = 1,
+                            Unit = "dl"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Name = "Halsmandlar",
+                            Quantity = 2,
+                            RecipeID = 2,
+                            Unit = "st"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Name = "Eld",
+                            Quantity = 1,
+                            RecipeID = 2,
+                            Unit = "st"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Name = "Vodka",
+                            Quantity = 1,
+                            RecipeID = 3,
+                            Unit = "l"
+                        });
                 });
 
             modelBuilder.Entity("YellowCarrot.Models.Recipe", b =>
@@ -83,6 +133,26 @@ namespace YellowCarrot.Migrations
                     b.HasIndex("TagName");
 
                     b.ToTable("Recipes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Name = "Äggmacka Äggus Maximus",
+                            UserID = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Name = "Brända Halsmandlar",
+                            UserID = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Name = "Finsk Sommarsoppa",
+                            UserID = 3
+                        });
                 });
 
             modelBuilder.Entity("YellowCarrot.Models.Tag", b =>
