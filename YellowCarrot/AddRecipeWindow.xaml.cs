@@ -47,11 +47,11 @@ namespace YellowCarrot
                     recipe.TagName= tag.Name;
                     unitOfWork.Tags.Add(tag);
                     //unitOfWork.Complete();
-                    //recipe.TagID= tag.ID;
+                    //_recipe.TagID= tag.ID;
                 }
                 else if(cboTags.SelectedItem!= null) 
                 {
-                    //recipe.TagName = cboTags.SelectedItem.ToString();
+                    //_recipe.TagName = cboTags.SelectedItem.ToString();
                     Tag tag = unitOfWork.Tags.GetTagByName(cboTags.SelectedItem.ToString());
                     recipe.TagName= tag.Name;
                     unitOfWork.Tags.Add(tag);
@@ -80,12 +80,21 @@ namespace YellowCarrot
             //        number += int.Parse(c);
             //    }
             //}
+            foreach(var item in lvRecipe.Items)
+            {
+                if(item.ToString().Contains(tbxIngredient.Text))
+                {
+                    MessageBox.Show($"You have already added {tbxIngredient.Text} to the _recipe!");
+                    return;
+                } 
+            }
             bool isNumberOk = int.TryParse(tbxIngredientQuantity.Text, out int number);
             if (isNumberOk)
             {
                 Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), number/*int.Parse(tbxIngredientQuantity.Text)*/); // fånga null om inget är valt till att bli "";
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
             }
+
             tbxIngredient.Text = "";
             tbxIngredientQuantity.Text = "";
             

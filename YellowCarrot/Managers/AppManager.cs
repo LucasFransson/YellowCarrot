@@ -45,9 +45,9 @@ namespace YellowCarrot.Managers
         //}
 
         // Utmarkerad pga unused
-        //public static List<Ingredient> GetIngredientsFromRecipe(Recipe recipe,UnitOfWork unitOfWork)
+        //public static List<Ingredient> GetIngredientsFromRecipe(Recipe _recipe,UnitOfWork unitOfWork)
         //{
-        //    return unitOfWork.Recipes.FindById(recipe.ID).Ingredients.ToList();
+        //    return unitOfWork.Recipes.FindById(_recipe.ID).Ingredients.ToList();
         //}
 
         // Takes a listview, Creates an empty generic list, and then fill the list with all the objects from the listview
@@ -77,7 +77,7 @@ namespace YellowCarrot.Managers
             ingredient.Quantity= quantity;
             return ingredient;
         }
-        // Takes a string and a list of Ingredients, Creates an empty recipe, iterates through the list of ingredients and adds the ingredients to the recipe
+        // Takes a string and a list of Ingredients, Creates an empty _recipe, iterates through the list of ingredients and adds the ingredients to the _recipe
         // Trims the string and assign it as the Recipe.Name property, Takes the int from AppManager.LoggedInUser.ID and assign it to the Recipe.UserID
         public static Recipe CreateRecipe(string recipeName, List<Ingredient> ingredients)
         {
@@ -91,16 +91,33 @@ namespace YellowCarrot.Managers
             return recipe;
         }
 
+        public static Recipe EditRecipe(Recipe recipe,string recipeName, List<Ingredient> ingredients)
+        {
+            foreach (Ingredient ingredient in ingredients)
+            {
+                recipe.Ingredients.Add(ingredient);
+            }
+            recipe.Name = recipeName.Trim();
+            recipe.UserID = AppManager.LoggedInUser.ID;
+            return recipe;
+        }
+        public static void AddIngredientsToRecipe(Recipe recipe, List<Ingredient>ingredients)
+        {
+            foreach(Ingredient ingredient in ingredients)
+            {
+                recipe.Ingredients.Add(ingredient);
+            }
+        }
         //public static Recipe CreateRecipe(string recipeName,params Ingredient[] ingredients)
         //{
-        //    Recipe recipe = new();
+        //    Recipe _recipe = new();
         //    foreach(Ingredient ingredient in ingredients)
         //    {
-        //        recipe.Ingredients.Add(ingredient);
+        //        _recipe.Ingredients.Add(ingredient);
         //    }
-        //    recipe.Name=recipeName;
-        //   // recipe.UserID = (int)AppManager.UserID;
-        //    return recipe;
+        //    _recipe.Name=recipeName;
+        //   // _recipe.UserID = (int)AppManager.UserID;
+        //    return _recipe;
         //}
 
         // Takes 4 strings (firstname,lastname,username,password), Create an empty user object, trims the strings and assign them to the user object and returns the object
@@ -212,8 +229,8 @@ namespace YellowCarrot.Managers
             if (listView.SelectedItem != null)
             {
                 ListViewItem selectedItem = listView.SelectedItem as ListViewItem;
-                Ingredient? selectedRecipe = selectedItem.Tag as Ingredient;
-                return selectedRecipe;
+                Ingredient? selectedIngredient = selectedItem.Tag as Ingredient;
+                return selectedIngredient;
             }
             return null;
         }

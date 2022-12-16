@@ -75,9 +75,7 @@ namespace YellowCarrot.Managers
 
         public string GetUserNameByRecipeId(int recipeID, UserRepository userRepo)
         {
-            return userRepo.FindById(recipeID).UserName;
+            return userRepo.FindById(recipeID).UserName; // kraschar ibland? på äggmacka
         }
-
-
     }
 }

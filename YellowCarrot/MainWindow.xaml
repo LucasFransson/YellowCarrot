@@ -34,6 +34,20 @@
             <ColumnDefinition Width = "10"/>
         </Grid.ColumnDefinitions>
 
+        <Label x:Name="lblBackground"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="5"
+               Height="100"
+            >
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
         <Label x:Name="lblLogo"
                Grid.Column="2"
                Grid.Row="1"
@@ -41,8 +55,16 @@
                VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center"
                FontSize="40"
-               FontFamily="Verdana"  
-            />
+               FontFamily="Verdana" FontWeight="Bold"  
+            >
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#F9C449" Offset="1"/>
+                    <GradientStop Color="#EEB462" Offset="0"/>
+                    <GradientStop Color="#F9C449" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
         <Label x:Name="lblUserName"
                Content="Username"
                Grid.Column="2"

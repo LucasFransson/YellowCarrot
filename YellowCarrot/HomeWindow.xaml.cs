@@ -55,7 +55,7 @@ namespace YellowCarrot
                     unitOfWork.Complete();
                 }
             }
-            else { MessageBox.Show("You must select a recipe from the list to open!"); }
+            else { MessageBox.Show("You must select a _recipe from the list to open!"); }
         }
 
         private void btnAddRecipe_Click(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace YellowCarrot
             }
             else
             {
-                MessageBox.Show("You must select a recipe thats was created by You to open the Recipe Editor.");
+                MessageBox.Show("You must select a _recipe thats was created by You to open the Recipe Editor.");
             }
         }
 
