@@ -198,9 +198,12 @@ namespace YellowCarrot.Managers
         {
             // Går att optimera med en GetUserFromListView
             Recipe recipe = AppManager.GetRecipeFromListView(listView);
-            if(recipe.UserID==AppManager.LoggedInUser.ID) // krasch??
+            if (recipe != null)
             {
-                return true;
+                if (recipe.UserID == LoggedInUser.ID) // krasch??
+                {
+                    return true;
+                }
             }
             return false;
         }

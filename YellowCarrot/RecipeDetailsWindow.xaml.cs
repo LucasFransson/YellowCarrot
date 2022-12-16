@@ -22,28 +22,30 @@ namespace YellowCarrot
     /// </summary>
     public partial class RecipeDetailsWindow : Window
     {
-        Recipe _recipe; /*{ get; set; }*/
-        List<Ingredient> recipeIngredients = new(); // Listan är till för att kunna lösa problem som uppstod när ingredienser skulle tas bort från listviewen dynamiskt men endast raderas ur DB vid btnSave.Click
-        List<Ingredient> ingredientsToRemove = new(); // samma som ovan
-        List<Ingredient> ingredientsToAdd = new(); 
+        Recipe _recipe; 
+        List<Ingredient> _recipeIngredients = new(); // Listan är till för att kunna lösa problem som uppstod när ingredienser skulle tas bort från listviewen dynamiskt men endast raderas ur DB vid btnSave.Click
+        List<Ingredient> _ingredientsToRemove = new(); // samma som ovan
+        List<Ingredient> _ingredientsToAdd = new(); 
         public RecipeDetailsWindow(Recipe recipe)
         {
             InitializeComponent();
 
-            this._recipe= recipe;
-            lblEditHeadliner.Content = $"Editing {recipe.Name} Recipe";
-            tbxRecipeName.Text=recipe.Name;
-            AppManager.LoadUnitEnums(cboUnit); // loads all the available strings from the enum Units to the combobox
+            //this._recipe= recipe;
+          
 
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID); // Jag kunde inte nå Ingredients och Tags via Receptet som jag skickade med, så därför får jag köra en Get.Include metod här.  Det kan gå att lösa via metoder i korrekt _Context (IngredientRepository), checka detta 
+                _recipe = unitOfWork.Recipes.GetRecipeWithIngredients(recipe.ID); // Jag kunde inte nå Ingredients och Tags via Receptet som jag skickade med, så därför får jag köra en Get.Include metod här.  Det kan gå att lösa via metoder i korrekt _Context (IngredientRepository), checka detta 
                 
-                AppManager.LoadIngredients(lvRecipe, recipe.Ingredients);
+                lblEditHeadliner.Content = $"Editing {recipe.Name} Recipe";
+                tbxRecipeName.Text = _recipe.Name;
+                AppManager.LoadUnitEnums(cboUnit); // loads all the available strings from the enum Units to the combobox
+
+                AppManager.LoadIngredients(lvRecipe, _recipe.Ingredients);
                 List<Tag> tags = unitOfWork.Tags.GetAllTags();
                 AppManager.LoadObjectsToComboBox(cboTags, tags);
-                recipeIngredients = recipe.Ingredients; 
-                //unitOfWork.Complete();
+                _recipeIngredients = _recipe.Ingredients; 
+                
             }
         }
 
@@ -52,23 +54,20 @@ namespace YellowCarrot
 
             using (var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                if (ingredientsToRemove.Count > 0)
+                if (_ingredientsToRemove.Count > 0)
                 {
-                    foreach (var i in ingredientsToRemove)
+                    foreach (var i in _ingredientsToRemove)
                     {
                         unitOfWork.Ingredients.Remove(i);
                     }
-                    unitOfWork.Complete(); // Updates the DB with the removed ingredients            
                 }
-                //if (ingredientsToAdd.Count > 0)
-                //{
-                //    //AppManager.AddIngredientsToRecipe(_recipe,ingredientsToAdd);
-                //    foreach (Ingredient ingredient in ingredientsToAdd)
-                //    {
-                //        unitOfWork.Ingredients.Add(ingredient);
-                //    }
-                //    unitOfWork.Complete();
-                //}
+
+                Recipe recipe = unitOfWork.Recipes.FindById(_recipe.ID);
+                if(recipe != null)
+                {
+                    _ingredientsToAdd.ForEach(i => recipe.Ingredients.Add(i));
+                }
+                
                 unitOfWork.Complete();
 
                 MessageBox.Show($"You have edited the {_recipe.Name} Recipe!");
@@ -92,19 +91,11 @@ namespace YellowCarrot
             {
                 Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), number/*int.Parse(tbxIngredientQuantity.Text)*/); // fånga null om inget är valt till att bli "";
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
-                //ingredientsToAdd.Add(ingredient);
-                _recipe.Ingredients.Add(ingredient);
+                _ingredientsToAdd.Add(ingredient);
+                //_recipe.Ingredients.Add(ingredient);
             }
             tbxIngredient.Text = "";
             tbxIngredientQuantity.Text = "";
-
-            //using (var unitOfWork = new UnitOfWork(new AppDbContext()))
-            //{
-            //    Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), int.Parse(tbxIngredientQuantity.Text)); // fånga null om inget är valt till att bli "";
-            //    AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
-            //    ingredientsToAdd.Add(ingredient);
-            //}
-
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
@@ -127,9 +118,9 @@ namespace YellowCarrot
       
             Ingredient ingredient = AppManager.GetIngredientFromListView(lvRecipe);
             lvRecipe.Items.Remove(ingredient);
-            recipeIngredients.Remove(ingredient);
-            ingredientsToRemove.Add(ingredient);
-            AppManager.LoadIngredients(lvRecipe, recipeIngredients);
+            _recipeIngredients.Remove(ingredient);
+            _ingredientsToRemove.Add(ingredient);
+            AppManager.LoadIngredients(lvRecipe, _recipeIngredients);
 
 
 

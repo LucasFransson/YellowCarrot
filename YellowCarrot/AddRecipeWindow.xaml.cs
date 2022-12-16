@@ -41,7 +41,7 @@ namespace YellowCarrot
 
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
-                if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString()=="Create New Tag") 
+                if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString()=="Create New Tag")  // konstig
                 {
                     Tag tag = AppManager.CreateTag(tbxTag.Text);
                     recipe.TagName= tag.Name;
