@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +20,74 @@ namespace YellowCarrot.Managers
         {
             this._context = context;
         }
-
         public List<Recipe> GetAllRecipesWithIngredients()
         {
             return _context.Recipes.Include(r=>r.Ingredients).ToList();
         }
-
-
-        public User GetRecipeUserByRecipeID(int recipeID,UserRepository userRepo)
+        public User GetUserByRecipeID(int recipeID,UserRepository userRepo)
         {
             return userRepo.FindById(recipeID);
             //_context.Recipes.FirstOrDefault(r=>r.ID==recipeID)
         }
-
+        public User GetUserByUserName(string userName, UserRepository userRepo)
+        {
+            return userRepo.FindByUserName(userName);
+        }
+        public List<Recipe> GetRecipesByUserName(string userName, UserRepository userRepo)
+        {
+            User user = GetUserByUserName(userName, userRepo);
+            return _context.Recipes.Where(r => r.UserID == user.ID).ToList();
+        }
         public Recipe GetRecipeWithIngredients(int recipeID)
         {
             return _context.Recipes.Include(r => r.Ingredients).First(r => r.ID == recipeID);
         }
+        public Recipe GetRecipeIncluded(int recipeID) // error pga tag id != key fixa om tid finns
+        {
+            return _context.Recipes.Include(r => r.Ingredients).Include(r=>r.TagID).First(r => r.ID == recipeID); 
+        }
+        public List<Recipe> GetRecipesByRecipeName(string recipeName)
+        {
+            return _context.Recipes.Where(r=>r.Name == recipeName).ToList();
+        }
+        public List<Recipe> GetRecipesByUserID(int userID)
+        {
+            return _context.Recipes.Where(r=>r.UserID==userID).ToList();
+        }
+        public List<Recipe> GetRecipesByTag(string tag)
+        {
+            return _context.Recipes.Where(r => r.TagName == tag).ToList();
+        }
+        //public List<Recipe> GetRecipesByIngredient(string ingredient)
+        //{
+        //    // Se om du hinner fixa denna, vet inte varför den inte returnerar något.
 
+        //    //List<Recipe> recipes = GetAllRecipesWithIngredients();
+        //    //return recipes.Where(i => i);
+
+        //    //return (List<Recipe>)_context.Recipes.Select(r => r.Ingredients.Where(i => i.Name == ingredient));
+
+        //    //return _context.Recipes.Include(r => r.Ingredients).Where(i => i.Name == ingredient).ToList();
+
+
+        //    //Fixa denna om tid finns
+        //    // return _context.Recipes.Include(r => r.Ingredients).Where(r => r.Ingredients.FirstOrDefault(i => i.Name == ingredient));
+
+        //    //.Where(r => r.Ingredients.ForEach(i => i.Name == ingredient));
+        //    // Where(r => r.Ingredients.Contains(ingredient)).ToList();
+        //}
+
+
+
+
+        public void removeItemInList<T>(List<T> list)
+        {
+
+        }
+        public string GetUserNameByRecipeId(int recipeID, UserRepository userRepo)
+        {
+            Recipe recipe = _context.Recipes.FirstOrDefault(r => r.ID == recipeID);
+            return userRepo.FindById(recipe.UserID).UserName; 
+        }
     }
 }

@@ -31,6 +31,21 @@
             <ColumnDefinition Width = "*"/>
             <ColumnDefinition Width = "30"/>
         </Grid.ColumnDefinitions>
+        
+        <Label x:Name="lblBackground"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="5"
+               Height="100"
+            >
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
         <Label x:Name="lblUser"
                Content="UserName"
                Grid.Row="1"
@@ -40,7 +55,6 @@
                FontSize="22"
             />
         <Label x:Name="lblCurrentRecipe"
-               Content="Recipe"
                Grid.Row="2"
                Grid.Column="2"
                FontSize="44"
@@ -56,17 +70,126 @@
                HorizontalAlignment="Center"
                Margin="0,0,30,0"
                />
+        <Label x:Name="lblRecipeByUser"
+            Grid.Row="2"
+            Grid.Column="2"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            Margin="0,0,20,0"
+            />
+
         <ListView x:Name="lvRecipes"
                   Grid.Row="3"
                   Grid.RowSpan="2"
                   Grid.Column="1"
                   Margin="0,0,30,0"
+                  SelectionChanged="lvRecipes_SelectionChanged"
             />
         <ListView x:Name="lvCurrentRecipe"
                   Grid.Row="3"
                   Grid.RowSpan="2"
                   Grid.Column="2"
+                  LostFocus="lvCurrentRecipe_LostFocus"
                   />
+
+        <RadioButton x:Name="rbtnSearchRecipe"
+            Content="Search By Recipe Name"
+            Grid.Row="3"
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Margin="20,40,0,0"
+            IsChecked="True"
+            Click="rbtnSearchRecipe_Click"
+            >
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <RadioButton x:Name="rbtnSearchTag"
+            Content="Search By Tag"
+            Grid.Row="3"
+            Grid.Column="3"
+            VerticalAlignment="Bottom"
+            Margin="20,0,0,40"
+            Click="rbtnSearchTag_Click"
+            >
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <RadioButton x:Name="rbtnSearchUser"
+            Content="Search By User"
+            Grid.Row="3"
+            Grid.Column="3"
+            VerticalAlignment="Bottom"
+            Margin="20,0,0,0"
+            Click="rbtnSearchUser_Click"
+            >
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <RadioButton x:Name="rbtnSearchIngredient"
+            Content="Search By Ingredient"
+            Grid.Row="4"
+            Grid.Column="3"
+            VerticalAlignment="Top"
+            Margin="20,30,0,0"
+            Click="rbtnSearchIngredient_Click"
+            Visibility="Hidden"
+            >
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <ComboBox x:Name="cboTags"
+            Grid.Row="4"
+            Grid.Column="3"
+            Height="50"
+            Width="150"
+            VerticalAlignment="Center"
+            Visibility="Collapsed"
+
+            />
+        <TextBox x:Name="tbxSearchInput"
+            Grid.Row="4"
+            Grid.Column="3"
+            Height="50"
+            Width="150"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            
+            />
+        <Button x:Name="btnSearch"
+                Content="Search"
+                Grid.Row="4"
+                Grid.Column="3"
+                Height="50"
+                Width="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,20"
+                Click="btnSearch_Click"
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnOpenRecipe"
                 Content="Open Recipe"
                 Grid.Row="5"
@@ -77,7 +200,14 @@
                 HorizontalAlignment="Right"
                 Margin="0,10,30,0"
                 Click="btnOpenRecipe_Click"
-            />
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnLogOut"
                 Content="Log Out"
                 Grid.Row="5"
@@ -86,18 +216,32 @@
                 Width="150"
                 HorizontalAlignment="Center"
                 Click="btnLogOut_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnAddRecipe" 
                 Content="Add Recipe"
-                Grid.Row="5"
-                Grid.Column="1"
+                Grid.Row="2"
+                Grid.Column="3"
                 Height="50"
                 Width="100"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Margin="0,10,0,0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,0"
                 Click="btnAddRecipe_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnEditRecipe" 
                 Content="Edit Recipe"
                 Grid.Row="5"
@@ -106,27 +250,52 @@
                 Width="100"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
-                Margin="0,10,30,0"
+                Margin="0,10,0,0"
+                Visibility="Hidden"
                 Click="btnEditRecipe_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button x:Name="btnMyRecipes"
                 Content="My Recipes"
                 Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="3"
+                Height="50"
+                Width="100"
+                Margin="0,0,0,80"
+                Click="btnMyRecipes_Click" 
+            >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnShowAllRecipes"
+                Content="All Recipes"
+                Grid.Row="3"
                 Grid.Column="3"
                 Height="50"
                 Width="100"
                 VerticalAlignment="Top"
-                Click="btnMyRecipes_Click" 
-            />
-        <Button x:Name="btnShowAllRecipes"
-                Content="All Recipes"
-                Grid.Row="2"
-                Grid.Column="3"
-                Height="50"
-                Width="100"
-                VerticalAlignment="Center"
-                Margin="0,30,0,0"
+                Margin="0,40,0,0"
                 Click="btnShowAllRecipes_Click"
-                />
+                >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#63BCC9" Offset="1"/>
+                    <GradientStop Color="#47CACC" Offset="0.583"/>
+                    <!--<GradientStop Color="#BAC94A" Offset="1"/>
+                    <GradientStop Color="#A7D676" Offset="0.583"/>-->
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

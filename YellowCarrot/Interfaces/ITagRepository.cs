@@ -9,5 +9,9 @@ namespace YellowCarrot.Interfaces
 {
     public interface ITagRepository : IRepository<Tag>
     {
+        public Tag GetTagByName(string name);
+        List<Tag> GetAllTags();
+
+        public bool IsAlreadyCreated(Tag tag);
     }
 }

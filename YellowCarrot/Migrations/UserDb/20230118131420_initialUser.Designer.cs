@@ -2,17 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YellowCarrot.Data;
 
 #nullable disable
 
-namespace YellowCarrot.Migrations
+namespace YellowCarrot.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230118131420_initialUser")]
+    partial class initialUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +55,32 @@ namespace YellowCarrot.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            FirstName = "Test",
+                            LastName = "Testsson",
+                            Password = "Hua9guHu3yKtEiinP1DSqQ==",
+                            UserName = "user"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            FirstName = "Kod",
+                            LastName = "McDog",
+                            Password = "9MM8erOgTI+BwqG4b6hm5Q==",
+                            UserName = "McDog1337"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            FirstName = "Emperor",
+                            LastName = "Palpatine",
+                            Password = "uIKSkLiWUIGEq3OUnfpt7Q==",
+                            UserName = "DarthTyrannus"
+                        });
                 });
 #pragma warning restore 612, 618
         }
