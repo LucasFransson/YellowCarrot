@@ -55,7 +55,6 @@
                FontSize="22"
             />
         <Label x:Name="lblCurrentRecipe"
-               Content="Recipe"
                Grid.Row="2"
                Grid.Column="2"
                FontSize="44"

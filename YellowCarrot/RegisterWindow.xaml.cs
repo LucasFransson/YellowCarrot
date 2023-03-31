@@ -54,5 +54,10 @@ namespace YellowCarrot
                 }
             }
         }
+
+        private void tbxFirstName_TextChanged()
+        {
+
+        }
     }
 }

@@ -78,6 +78,12 @@ namespace YellowCarrot.Managers
         //}
 
 
+
+
+        public void removeItemInList<T>(List<T> list)
+        {
+
+        }
         public string GetUserNameByRecipeId(int recipeID, UserRepository userRepo)
         {
             Recipe recipe = _context.Recipes.FirstOrDefault(r => r.ID == recipeID);

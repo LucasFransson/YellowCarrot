@@ -14,7 +14,7 @@ namespace YellowCarrot.Managers
     public class UserRepository : IDisposable // Checka !!! : IUserRepository
     {
         private readonly UserDbContext _Context;
-
+ 
         public UserRepository(UserDbContext context)   
         {
             _Context = context;

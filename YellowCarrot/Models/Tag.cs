@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace YellowCarrot.Models
 {
-    public class Tag
+     public class Tag
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }

@@ -145,6 +145,7 @@ namespace YellowCarrot
                             }
                         case true when rbtnSearchUser.IsChecked == true:
                             {
+       
                                 List<Recipe> recipes = unitOfWork.Recipes.GetRecipesByUserName(tbxSearchInput.Text,userRepo);
                                 if (recipes.Count > 0)
                                 {

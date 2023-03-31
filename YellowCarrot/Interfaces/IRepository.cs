@@ -8,6 +8,7 @@ using YellowCarrot.Models;
 
 namespace YellowCarrot.Interfaces
 {
+    
 
     public interface IRepository<TEntity> where TEntity : class
     {
@@ -19,6 +20,7 @@ namespace YellowCarrot.Interfaces
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
         void RemoveWhere(Expression<Func<Ingredient, bool>> predicate);
+
 
     }
 }

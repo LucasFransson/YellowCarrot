@@ -42,7 +42,7 @@ namespace YellowCarrot
             using(var unitOfWork = new UnitOfWork(new AppDbContext()))
             {
                 if (cboTags.SelectedItem != null) // allt här borde refaktorerats men tiden räcker inte till tyvärr utan risk för buggar
-                {
+                {   
                     if (tbxTag.Text.Count() != 0 && cboTags.SelectedItem.ToString() == "Create New Tag")  // Försöker fixa problemet som uppstår om en user väljer något i cboTags, sen skriver i tbx, sen väljer något i cbotags. 
                     {
                         Tag tag = AppManager.CreateTag(tbxTag.Text);
@@ -53,7 +53,6 @@ namespace YellowCarrot
                     }
                     else 
                     {
-
                         Tag tag = unitOfWork.Tags.GetTagByName(cboTags.SelectedItem.ToString());
                         recipe.TagName = tag.Name;
                         recipe.TagID = tag.ID;    // Här behövs inte Complete() köras då det rör sig om en tidigare skapad tag
@@ -78,6 +77,8 @@ namespace YellowCarrot
         }
         private void btnReturn_Click(object sender, RoutedEventArgs e)
         {
+            
+            
             HomeWindow homeWin = new();
             homeWin.Show();
             this.Close();
@@ -88,7 +89,7 @@ namespace YellowCarrot
             {
                 if(item.ToString().Contains(tbxIngredient.Text))
                 {
-                    MessageBox.Show($"You have already added {tbxIngredient.Text} to the _recipe!");
+                    MessageBox.Show($"You have already added {tbxIngredient.Text} to the recipe!");
                     return;
                 } 
             }
@@ -98,10 +99,8 @@ namespace YellowCarrot
                 Ingredient ingredient = AppManager.CreateIngredient(tbxIngredient.Text, cboUnit.SelectedItem.ToString(), number/*int.Parse(tbxIngredientQuantity.Text)*/); // fånga null om inget är valt till att bli "";
                 AppManager.AddLvItemToLv(AppManager.CreateListViewItem(ingredient, $"{ingredient.Quantity} {ingredient.Unit} {ingredient.Name}"), lvRecipe);
             }
-
             tbxIngredient.Text = "";
-            tbxIngredientQuantity.Text = "";
-            
+            tbxIngredientQuantity.Text = "";       
         }
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
@@ -111,7 +110,6 @@ namespace YellowCarrot
 
             }
         }
-
         private void cboTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tbxTag.Text = "";

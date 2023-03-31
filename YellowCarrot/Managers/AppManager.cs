@@ -188,12 +188,6 @@ namespace YellowCarrot.Managers
                 return true;
             }
             return false;
-            //if (userRepo.FindByUserName(username).Password == password)
-            //{
-            //    userRepo.Complete(); // ???
-            //    return true;
-            //}
-            //return false;
         }
         public static bool IsRecipeOwnedByUser(ListView listView)
         {

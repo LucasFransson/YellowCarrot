@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:YellowCarrot"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-  Title="Sign Up" Height="1000" Width="550">
+  Title="Sign Up" Height="900" Width="550">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

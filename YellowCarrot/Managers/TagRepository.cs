@@ -18,7 +18,6 @@ namespace YellowCarrot.Managers
         {
             this._context = context;
         }
-
         public List<Tag> GetAllTags()
         {
             return _context.Tags.ToList();
@@ -26,6 +25,10 @@ namespace YellowCarrot.Managers
         public Tag GetTagByName(string tagName)
         {
             return _context.Tags.FirstOrDefault(t=>t.Name==tagName);
+        }
+        public bool IsAlreadyCreated(Tag tag)
+        {
+            return _context.Tags.Contains(tag);
         }
     }
 }

@@ -11,8 +11,8 @@ using YellowCarrot.Data;
 namespace YellowCarrot.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20221216174023_UserInitial")]
-    partial class UserInitial
+    [Migration("20230118131420_initialUser")]
+    partial class initialUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -11,5 +11,7 @@ namespace YellowCarrot.Interfaces
     {
         public Tag GetTagByName(string name);
         List<Tag> GetAllTags();
+
+        public bool IsAlreadyCreated(Tag tag);
     }
 }

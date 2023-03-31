@@ -87,6 +87,7 @@
                  Height="60"
                  BorderThickness="4"
                  VerticalAlignment="Bottom"
+                 FontSize="34"
                  />
         <PasswordBox x:Name="pbxPassword"
                      Grid.Column="2"
@@ -94,6 +95,7 @@
                      Height="60"
                      BorderThickness="4"
                      VerticalAlignment="Bottom"
+                     FontSize="34"
                      />
         <Button x:Name="btnLogin"
                 Content="Log In"
